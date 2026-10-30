@@ -29,34 +29,18 @@ export function startClock() {
   const homeDate = document.querySelector('#home-date');
   const calendarDay = document.querySelector('#calendar-day');
 
-
+  function update() {
+    const now = new Date();
     const time = formatTime(now);
     const date = dateFormatter.format(now);
 
-    // Lock Screen: 14:30
-    if (lockClock) {
-      lockClock.textContent = time;
-    }
+    if (lockClock) lockClock.textContent = time;
+    if (lockDate) lockDate.textContent = date;
+    if (statusTime) statusTime.textContent = time.replace(':', '.');
+    if (homeDate) homeDate.textContent = date.toUpperCase();
+    if (calendarDay) calendarDay.textContent = String(now.getDate());
 
-    if (lockDate) {
-      lockDate.textContent = date;
-    }
-
-    // Status Bar: 14.30
-    if (statusTime) {
-      statusTime.textContent = time.replace(':', '.');
-    }
-
-    // Home Screen.
-    if (homeDate) {
-      homeDate.textContent = date.toUpperCase();
-    }
-
-    if (calendarDay) {
-      calendarDay.textContent = String(now.getDate());
-    }
-
-    // Tampilkan jam setelah nilainya sudah diperbarui.
+    // Tampilkan jam setelah waktu berhasil diatur.
     document.body.classList.remove('clock-pending');
   }
 
