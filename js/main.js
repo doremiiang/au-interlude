@@ -11,6 +11,7 @@ const homeIndicator = document.querySelector('#home-indicator');
 
 let cleanupCurrentApp = null;
 let currentApp = null;
+let appLoadToken = 0;
 
 // Membuat tombol aplikasi.
 function createAppButton(app) {
