@@ -1,4 +1,3 @@
-
 import { APPS } from '../data/apps.js';
 import { iconSvg } from './core/icons.js';
 import { startClock } from './core/clock.js';
@@ -6,10 +5,10 @@ import { initLockScreen } from './core/lockscreen.js';
 import { initStoryEngine } from './core/story-engine.js';
 
 import {
-  hasStartedStory,
-  isStoryCompleted,
-  startStory,
-  resetStoryState
+hasStartedStory,
+isStoryCompleted,
+startStory,
+resetStoryState
 } from './core/story-state.js';
 
 const homeScreen = document.querySelector('#home-screen');
@@ -26,216 +25,211 @@ let appLoadToken = 0;
 
 // Memperbarui tombol berdasarkan progres cerita.
 function updateStoryMenu() {
-  const newButton = storyMenuActions.querySelector(
-    '[data-story-action="new"]'
-  );
+const newButton = storyMenuActions.querySelector(
+'[data-story-action="new"]'
+);
 
-  const continueButton = storyMenuActions.querySelector(
-    '[data-story-action="continue"]'
-  );
+const continueButton = storyMenuActions.querySelector(
+'[data-story-action="continue"]'
+);
 
-  const checkpointButton = storyMenuActions.querySelector(
-    '[data-story-action="checkpoints"]'
-  );
+const checkpointButton = storyMenuActions.querySelector(
+'[data-story-action="checkpoints"]'
+);
 
-  const restartButton = storyMenuActions.querySelector(
-    '[data-story-action="restart"]'
-  );
+const restartButton = storyMenuActions.querySelector(
+'[data-story-action="restart"]'
+);
 
-  const started = hasStartedStory();
-  const completed = isStoryCompleted();
+const started = hasStartedStory();
+const completed = isStoryCompleted();
 
-  newButton.textContent = completed
-    ? 'Replay Story'
-    : 'New Story';
+newButton.textContent = completed
+? 'Replay Story'
+: 'New Story';
 
-  newButton.hidden = started && !completed;
-  continueButton.hidden = !started || completed;
-  checkpointButton.hidden = !started;
-  restartButton.hidden = !started || completed;
+newButton.hidden = started && !completed;
+continueButton.hidden = !started || completed;
+checkpointButton.hidden = !started;
+restartButton.hidden = !started || completed;
 
-  // Fitur pemilihan checkpoint akan diaktifkan
-  // setelah tampilan pemilih checkpoint dibuat.
-  checkpointButton.disabled = true;
+// Fitur pemilihan checkpoint akan diaktifkan
+// setelah tampilan pemilih checkpoint dibuat.
+checkpointButton.disabled = true;
 }
 
 // Menampilkan Story Menu setelah iPhone dibuka.
 function showStoryMenu() {
-  homeScreen.classList.add('is-hidden');
-  appLayer.classList.add('is-hidden');
-  storyMenu.classList.remove('is-hidden');
+homeScreen.classList.add('is-hidden');
+appLayer.classList.add('is-hidden');
+storyMenu.classList.remove('is-hidden');
 
-  updateStoryMenu();
+updateStoryMenu();
 }
 
 // Menampilkan Home Screen.
 function showHomeScreen() {
-  storyMenu.classList.add('is-hidden');
-  appLayer.classList.add('is-hidden');
-  homeScreen.classList.remove('is-hidden');
+storyMenu.classList.add('is-hidden');
+appLayer.classList.add('is-hidden');
+homeScreen.classList.remove('is-hidden');
 }
 
 // Membuat tombol aplikasi.
 function createAppButton(app) {
-  const button = document.createElement('button');
+const button = document.createElement('button');
 
-  button.type = 'button';
-  button.className = 'app-icon-button';
-  button.dataset.app = app.id;
-  button.setAttribute('aria-label', `Open ${app.name}`);
+button.type = 'button';
+button.className = 'app-icon-button';
+button.dataset.app = app.id;
+button.setAttribute('aria-label', Open ${app.name});
 
-  button.innerHTML = `
-    <span class="app-icon ${app.color}">
-      ${iconSvg(app.glyph)}
-    </span>
-    <span class="app-label">${app.name}</span>
-  `;
+button.innerHTML =   <span class="app-icon ${app.color}">   ${iconSvg(app.glyph)}   </span>   <span class="app-label">${app.name}</span>  ;
 
-  return button;
+return button;
 }
 
 // Menampilkan ikon aplikasi pada Home Screen.
 function renderHomeIcons() {
-  const grid = document.querySelector('#app-grid');
-  const dock = document.querySelector('#dock');
+const grid = document.querySelector('#app-grid');
+const dock = document.querySelector('#dock');
 
-  if (!grid || !dock) {
-    console.error('Home Screen elements tidak ditemukan.');
-    return;
-  }
+if (!grid || !dock) {
+console.error('Home Screen elements tidak ditemukan.');
+return;
+}
 
-  // Bersihkan ikon sebelumnya agar tidak terduplikasi.
-  grid.replaceChildren();
-  dock.replaceChildren();
+// Bersihkan ikon sebelumnya agar tidak terduplikasi.
+grid.replaceChildren();
+dock.replaceChildren();
 
-  APPS.forEach((app) => {
-    const button = createAppButton(app);
+APPS.forEach((app) => {
+const button = createAppButton(app);
 
-    if (app.dock) {
-      dock.append(button);
-    } else {
-      grid.append(button);
-    }
-  });
+if (app.dock) {  
+  dock.append(button);  
+} else {  
+  grid.append(button);  
+}
+
+});
 }
 
 // Membersihkan aplikasi yang sedang terbuka.
 function cleanupActiveApp() {
-  if (typeof cleanupCurrentApp === 'function') {
-    try {
-      cleanupCurrentApp();
-    } catch (error) {
-      console.error('Gagal membersihkan aplikasi:', error);
-    }
-  }
+if (typeof cleanupCurrentApp === 'function') {
+try {
+cleanupCurrentApp();
+} catch (error) {
+console.error('Gagal membersihkan aplikasi:', error);
+}
+}
 
-  cleanupCurrentApp = null;
+cleanupCurrentApp = null;
 }
 
 // Kembali ke Home Screen.
 function closeApp() {
-  appLoadToken++;
-  cleanupActiveApp();
+appLoadToken++;
+cleanupActiveApp();
 
-  currentApp = null;
+currentApp = null;
 
-  appLayer.classList.add('is-hidden');
-  homeScreen.classList.remove('is-hidden');
+appLayer.classList.add('is-hidden');
+homeScreen.classList.remove('is-hidden');
 
-  appSurface.replaceChildren();
-  appSurface.scrollTop = 0;
+appSurface.replaceChildren();
+appSurface.scrollTop = 0;
 }
 
 // Membuka aplikasi berdasarkan ID.
 async function openApp(appId) {
-  const app = APPS.find((item) => item.id === appId);
+const app = APPS.find((item) => item.id === appId);
 
-  if (!app) return;
+if (!app) return;
 
-  cleanupActiveApp();
+cleanupActiveApp();
 
-  const loadToken = ++appLoadToken;
+const loadToken = ++appLoadToken;
 
-  currentApp = app.id;
+currentApp = app.id;
 
-  homeScreen.classList.add('is-hidden');
-  appLayer.classList.remove('is-hidden');
+homeScreen.classList.add('is-hidden');
+appLayer.classList.remove('is-hidden');
 
-  appSurface.scrollTop = 0;
+appSurface.scrollTop = 0;
 
-  appSurface.innerHTML = `
-    <div class="generic-app-screen">
-      <p>Loading ${app.name}...</p>
-    </div>
-  `;
+appSurface.innerHTML =   <div class="generic-app-screen">   <p>Loading ${app.name}...</p>   </div>  ;
 
-  try {
-    // Muat modul aplikasi hanya saat diperlukan.
-    const { renderApp } = await import('./apps/app-view.js');
+try {
+// Muat modul aplikasi hanya saat diperlukan.
+const { renderApp } = await import('./apps/app-view.js');
 
-    // Abaikan hasil jika pengguna sudah berpindah aplikasi.
-    if (loadToken !== appLoadToken) return;
+// Abaikan hasil jika pengguna sudah berpindah aplikasi.  
+if (loadToken !== appLoadToken) return;  
 
-    if (typeof renderApp !== 'function') {
-      throw new TypeError('renderApp tidak ditemukan.');
-    }
+if (typeof renderApp !== 'function') {  
+  throw new TypeError('renderApp tidak ditemukan.');  
+}  
 
-    appSurface.replaceChildren();
+appSurface.replaceChildren();  
 
-    const cleanup = renderApp(app, appSurface, closeApp);
+const cleanup = renderApp(app, appSurface, closeApp);  
 
-    cleanupCurrentApp =
-      typeof cleanup === 'function' ? cleanup : null;
+cleanupCurrentApp =  
+  typeof cleanup === 'function' ? cleanup : null;
 
-  } catch (error) {
-    console.error(`Gagal membuka aplikasi ${app.name}:`, error);
+} catch (error) {
+console.error(Gagal membuka aplikasi ${app.name}:, error);
 
-    if (loadToken !== appLoadToken) return;
+if (loadToken !== appLoadToken) return;  
 
-    appSurface.innerHTML = `
-      <div class="generic-app-screen">
-        <h2>Aplikasi tidak dapat dibuka</h2>
-        <p>Terjadi kesalahan saat memuat ${app.name}.</p>
-        <p>Silakan periksa Console untuk detail error.</p>
-      </div>
-    `;
-  }
+appSurface.innerHTML = `  
+  <div class="generic-app-screen">  
+    <h2>Aplikasi tidak dapat dibuka</h2>  
+    <p>Terjadi kesalahan saat memuat ${app.name}.</p>  
+    <p>Silakan periksa Console untuk detail error.</p>  
+  </div>  
+`;
+
+}
 }
 
 // Menangani pilihan pada Story Menu.
 storyMenuActions.addEventListener('click', (event) => {
-  const button = event.target.closest('[data-story-action]');
+const button = event.target.closest('[data-story-action]');
 
-  if (!button || button.disabled) return;
+if (!button || button.disabled) return;
 
-  const action = button.dataset.storyAction;
+const action = button.dataset.storyAction;
 
-  if (action === 'new') {
-    if (isStoryCompleted()) {
-      resetStoryState();
-    }
+if (action === 'new') {
+if (isStoryCompleted()) {
+resetStoryState();
+}
 
-    startStory();
-    showHomeScreen();
-    return;
-  }
+startStory();  
+showHomeScreen();  
+return;
 
-  if (action === 'continue') {
-    showHomeScreen();
-    return;
-  }
+}
 
-  if (action === 'restart') {
-    const confirmed = window.confirm(
-      'Restart Story? Your current story progress will be reset.'
-    );
+if (action === 'continue') {
+showHomeScreen();
+return;
+}
 
-    if (!confirmed) return;
+if (action === 'restart') {
+const confirmed = window.confirm(
+'Restart Story? Your current story progress will be reset.'
+);
 
-    resetStoryState();
-    startStory();
-    showHomeScreen();
-  }
+if (!confirmed) return;  
+
+resetStoryState();  
+startStory();  
+showHomeScreen();
+
+}
 });
 
 // Inisialisasi Home Screen.
@@ -249,49 +243,49 @@ initStoryEngine([]);
 
 // Inisialisasi Lock Screen.
 initLockScreen(() => {
-  showStoryMenu();
+showStoryMenu();
 });
 
 // Event delegation untuk semua ikon aplikasi.
 document.addEventListener('click', (event) => {
-  const target = event.target;
+const target = event.target;
 
-  if (!(target instanceof Element)) return;
+if (!(target instanceof Element)) return;
 
-  const appButton = target.closest('[data-app]');
+const appButton = target.closest('[data-app]');
 
-  if (!appButton) return;
+if (!appButton) return;
 
-  openApp(appButton.dataset.app);
+openApp(appButton.dataset.app);
 });
 
 // Tombol Home untuk menutup aplikasi.
 homeIndicator.addEventListener('click', () => {
-  if (!appLayer.classList.contains('is-hidden')) {
-    closeApp();
-  }
+if (!appLayer.classList.contains('is-hidden')) {
+closeApp();
+}
 });
 
 // Tombol Escape untuk kembali ke Home.
 window.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && currentApp) {
-    closeApp();
-  }
+if (event.key === 'Escape' && currentApp) {
+closeApp();
+}
 });
 
 // Registrasi Service Worker.
 if (
-  'serviceWorker' in navigator &&
-  /^https?:$/.test(location.protocol)
+'serviceWorker' in navigator &&
+/^https?:$/.test(location.protocol)
 ) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./sw.js')
-      .catch((error) => {
-        console.warn(
-          'Service Worker belum dapat didaftarkan:',
-          error
-        );
-      });
-  });
-}
+window.addEventListener('load', () => {
+navigator.serviceWorker
+.register('./sw.js')
+.catch((error) => {
+console.warn(
+'Service Worker belum dapat didaftarkan:',
+error
+);
+});
+});
+  }
