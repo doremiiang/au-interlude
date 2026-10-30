@@ -1,6 +1,6 @@
 
 const CACHE_PREFIX = 'interlude-shell-';
-const CACHE_NAME = `${CACHE_PREFIX}v6`;
+const CACHE_NAME = `${CACHE_PREFIX}v7`;
 
 const APP_SHELL = [
   './',
@@ -18,9 +18,12 @@ const APP_SHELL = [
   './js/core/clock.js',
   './js/core/lockscreen.js',
   './js/apps/app-view.js',
+  './js/apps/messages.js',
 
   './data/config.js',
   './data/apps.js',
+  './data/messages.js',
+
   './assets/icons/app-icon.svg'
 ];
 
@@ -37,10 +40,9 @@ self.addEventListener('activate', (event) => {
     caches.keys()
       .then((keys) => Promise.all(
         keys
-          .filter(
-            (key) =>
-              key.startsWith(CACHE_PREFIX) &&
-              key !== CACHE_NAME
+          .filter((key) =>
+            key.startsWith(CACHE_PREFIX) &&
+            key !== CACHE_NAME
           )
           .map((key) => caches.delete(key))
       ))
@@ -55,6 +57,19 @@ self.addEventListener('fetch', (event) => {
 
   if (requestURL.origin !== self.location.origin) return;
 
+  // JavaScript selalu diambil dari jaringan.
+  if (requestURL.pathname.endsWith('.js')) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' })
+        .catch(() =>
+          caches.match(event.request)
+            .then((cached) => cached || Response.error())
+        )
+    );
+    return;
+  }
+
+  // File lainnya menggunakan Network First.
   event.respondWith(
     fetch(event.request)
       .then((response) => {
