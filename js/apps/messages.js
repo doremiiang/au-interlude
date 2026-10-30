@@ -262,7 +262,7 @@ const renderConversation = (contactId) => {
 
     return `
       ${dateDivider}
-      ${renderMessageBubble(message)}
+      ${renderMessageBubble(message, contactId)}
     `;
   }).join('');
 };
