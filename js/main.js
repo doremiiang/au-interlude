@@ -96,14 +96,13 @@ function updateStoryMenu() {
 }
 
 // PATCH: Menampilkan Story Menu sebagai halaman pertama saat website dibuka.
+
 function showStoryMenu() {
   lockScreen.classList.add('is-hidden');
   homeScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
   storyMenu.classList.remove('is-hidden');
-window.dispatchEvent(
-  new CustomEvent('interlude:app-opened')
-);
+
   updateStoryMenu();
 }
 
@@ -222,11 +221,18 @@ async function openApp(appId) {
   const loadToken = ++appLoadToken;
   currentApp = app.id;
 
+  
   homeScreen.classList.add('is-hidden');
   storyMenu.classList.add('is-hidden');
   appLayer.classList.remove('is-hidden');
 
+  // Beri tahu Notification Manager bahwa aplikasi dibuka.
+  window.dispatchEvent(
+    new CustomEvent('interlude:app-opened')
+  );
+
   appSurface.scrollTop = 0;
+
 
   // PATCH: Tampilkan loading selama modul aplikasi dimuat.
   appSurface.innerHTML = `
