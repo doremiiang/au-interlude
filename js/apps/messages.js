@@ -1,8 +1,8 @@
 
 import { MESSAGE_CONTACTS } from '../../data/apps.js';
-import { CHAT_HISTORY } from '../../data/messages.js';
+import { MESSAGE_THREADS } from '../../data/messages.js';
 
-const CHAT_DATA = CHAT_HISTORY.chat_history;
+const CHAT_DATA = MESSAGE_THREADS;
 
 const escapeHTML = (value = '') => {
   return String(value).replace(/[&<>"']/g, (char) => {
