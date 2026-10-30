@@ -205,19 +205,33 @@ const renderMessagesList = (surface) => {
   `;
 };
 
-function renderMessageBubble(message) {
+function renderMessageBubble(message, contactId) {
   const isOutgoing = message.direction === 'outgoing';
+  const isGroup = contactId === 'family';
+
+  const sender = isGroup && !isOutgoing && message.sender
+    ? getContact(message.sender)
+    : null;
+
+  const senderName = sender
+    ? `<span class="message-sender-name">${escapeHTML(sender.name)}</span>`
+    : '';
 
   return `
-    <div class="message-bubble ${
+    <div class="message-bubble-wrapper ${
       isOutgoing ? 'message-outgoing' : 'message-incoming'
     }">
-      <p>${escapeHTML(message.text)}</p>
-      <time>${escapeHTML(formatTime(message.time))}</time>
+      ${senderName}
+
+      <div class="message-bubble ${
+        isOutgoing ? 'message-outgoing' : 'message-incoming'
+      }">
+        <p>${escapeHTML(message.text)}</p>
+        <time>${escapeHTML(formatTime(message.time))}</time>
+      </div>
     </div>
   `;
 }
-
 const renderConversation = (contactId) => {
   const messages = [...getMessages(contactId)].sort(
     (a, b) => getTimestamp(a) - getTimestamp(b)
