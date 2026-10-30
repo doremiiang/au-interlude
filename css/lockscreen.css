@@ -1,4 +1,22 @@
-.lock-screen { position: absolute; inset: 0; z-index: 10; padding: 78px 24px 35px; display: flex; flex-direction: column; align-items: center; text-align: center; transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1); }
+
+.lock-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  padding: 78px 24px 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1);
+
+  background-image:
+    linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.22)),
+    url("../assets/images/wallpaper/lockscreen-shaqil.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .lock-topline { font-size: 14px; color: rgba(255,255,255,.92); text-shadow: 0 1px 12px rgba(0,0,0,.2); }
 .lock-clock { margin-top: 5px; font-size: clamp(76px, 23vw, 100px); line-height: 1; font-weight: 250; letter-spacing: -.075em; font-variant-numeric: tabular-nums; text-shadow: 0 4px 26px rgba(0,0,0,.12); }
 .lock-caption { margin-top: 12px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.74); }
