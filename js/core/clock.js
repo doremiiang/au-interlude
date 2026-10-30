@@ -30,10 +30,6 @@ export function startClock() {
   const calendarDay = document.querySelector('#calendar-day');
 
   console.log('Timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
-console.log('Device time:', new Date().toString());
-console.log('Clock:', new Date().toLocaleTimeString('id-ID'));
-  function update() {
-    const now = new Date();
 
     const time = formatTime(now);
     const date = dateFormatter.format(now);
