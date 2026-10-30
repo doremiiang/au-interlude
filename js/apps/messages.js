@@ -245,33 +245,18 @@ const renderMessagesList = (surface) => {
 };
 
 
-const renderMessageBubble = (message, contactId) => {
-  const isOutgoing = message.sender === 'shaqil';
-  const isGroup = contactId === 'family';
-
-  let senderLabel = '';
-
-  if (isGroup && !isOutgoing) {
-    const senderContact = getContact(message.sender);
-    senderLabel = senderContact?.name || message.sender;
-  }
+function renderMessageBubble(message) {
+  const isOutgoing = message.direction === 'outgoing';
 
   return `
-    <article class="message-bubble ${
+    <div class="message-bubble ${
       isOutgoing ? 'message-outgoing' : 'message-incoming'
     }">
-      ${
-        senderLabel
-          ? `<span class="message-sender-name">${escapeHTML(senderLabel)}</span>`
-          : ''
-      }
-
       <p>${escapeHTML(message.text)}</p>
-
-      <time>${escapeHTML(message.time)}</time>
-    </article>
+      <time>${escapeHTML(formatTime(message.time))}</time>
+    </div>
   `;
-};
+}
 
 const renderConversation = (contactId) => {
   const messages = [...getMessages(contactId)].sort(
