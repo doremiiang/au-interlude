@@ -257,10 +257,18 @@ function renderGeneric(app) {
 }
 
 export function renderApp(app, surface, onClose) {
+  if (app.id === 'messages') {
+    return renderMessages(surface, onClose);
+  }
+
   let currentContact = null;
   let activeNoteId = null;
   let searchTerm = '';
-  let currentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  let currentMonth = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    1
+  );
   let selectedDate = new Date();
   let preferences = readPreferences();
 
