@@ -83,10 +83,14 @@ button.className = 'app-icon-button';
 button.dataset.app = app.id;
 button.setAttribute('aria-label', Open ${app.name});
 
-button.innerHTML =   <span class="app-icon ${app.color}">   ${iconSvg(app.glyph)}   </span>   <span class="app-label">${app.name}</span>  ;
+button.setAttribute('aria-label', `Open ${app.name}`);
 
-return button;
-}
+button.innerHTML = `
+  <span class="app-icon ${app.color}">
+    ${iconSvg(app.glyph)}
+  </span>
+  <span class="app-label">${app.name}</span>
+`;
 
 // Menampilkan ikon aplikasi pada Home Screen.
 function renderHomeIcons() {
