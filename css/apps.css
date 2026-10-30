@@ -182,3 +182,173 @@
 @media (prefers-reduced-motion: reduce) {
   .app-layer, .setting-switch, .setting-switch span { animation: none; transition: none; }
 }
+
+
+/* =========================================
+   MESSAGES — CLASSIC iMESSAGE
+   ========================================= */
+
+/* Halaman percakapan */
+.message-thread {
+  min-height: calc(100% - 53px);
+  display: flex;
+  flex-direction: column;
+  background: var(--app-bg, #fff);
+}
+
+/* Profil kontak */
+.thread-profile {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px 12px;
+  text-align: center;
+}
+
+.thread-profile strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--app-text, #1c1c1e);
+}
+
+.thread-profile > span:last-child {
+  font-size: 11px;
+  color: var(--app-muted, #8e8e93);
+}
+
+/* Area riwayat chat */
+.thread-history {
+  flex: 1;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 15px 24px;
+  scroll-behavior: smooth;
+}
+
+.message-bubbles {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Bubble dasar */
+.message-bubble {
+  width: fit-content;
+  max-width: 82%;
+  padding: 9px 12px 6px;
+  border-radius: 18px;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+}
+
+.message-bubble p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.message-bubble time {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  line-height: 1.2;
+  text-align: right;
+}
+
+/* Pesan masuk — abu-abu */
+.message-bubble.message-incoming {
+  align-self: flex-start;
+  background: #e9e9eb;
+  color: #1c1c1e;
+  border-bottom-left-radius: 5px;
+}
+
+.message-bubble.message-incoming time {
+  color: #707076;
+}
+
+/* Pesan keluar — biru iMessage */
+.message-bubble.message-outgoing {
+  align-self: flex-end;
+  background: #0a84ff;
+  color: #fff;
+  border-bottom-right-radius: 5px;
+}
+
+.message-bubble.message-outgoing time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Pemisah tanggal */
+.message-date-divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 13px 0;
+}
+
+.message-date-divider span {
+  color: #8e8e93;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Tampilan percakapan kosong */
+.message-empty-history {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 16px;
+  color: #8e8e93;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Penyesuaian avatar */
+.message-avatar-large {
+  width: 55px;
+  height: 55px;
+  font-size: 19px;
+}
+
+/* Penyesuaian daftar kontak */
+.message-contact-row {
+  text-align: left;
+}
+
+.message-contact-copy {
+  min-width: 0;
+}
+
+.message-contact-copy strong,
+.message-contact-copy span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-contact-meta {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Pencarian */
+.app-search input {
+  min-width: 0;
+  outline: none;
+}
+
+/* Hilangkan elemen composer lama dari tampilan Messages */
+.message-thread .message-composer {
+  display: none;
+}
