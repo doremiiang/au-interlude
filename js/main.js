@@ -19,6 +19,7 @@ const homeIndicator = document.querySelector('#home-indicator');
 const lockScreen = document.querySelector('#lock-screen');
 const storyMenu = document.querySelector('#story-menu');
 const storyMenuActions = document.querySelector('#story-menu-actions');
+const notificationCenter = document.querySelector('#notification-center');
 
 let cleanupCurrentApp = null;
 let currentApp = null;
@@ -33,7 +34,8 @@ function validateRequiredElements() {
     homeIndicator,
     lockScreen,
     storyMenu,
-    storyMenuActions
+    storyMenuActions,
+    notificationCenter
   };
 
   const missingElements = Object.entries(requiredElements)
@@ -115,6 +117,13 @@ function showHomeScreen() {
   lockScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
   homeScreen.classList.remove('is-hidden');
+
+  // PATCH: Memberi tahu Notification Manager bahwa Home Screen siap.
+  window.dispatchEvent(
+    new CustomEvent('interlude:home-ready', {
+      detail: { notificationCenter }
+    })
+  );
 }
 
 // Membuat tombol aplikasi.
