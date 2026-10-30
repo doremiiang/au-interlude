@@ -2,22 +2,38 @@
 import { on, emit } from './event-bus.js';
 
 import {
-  getSelectedEpisode,
-  isDateInEpisode
+  getCurrentEpisode,
+  isDateInEpisode,
+  getEpisodeProgress
 } from './timeline.js';
 
 import {
   getEventStatus,
   setEventStatus,
-  hasInteraction
+  hasInteraction,
+  recordInteraction
 } from './story-state.js';
 
 let registeredEvents = new Map();
 let cleanupListeners = [];
 
+let isRefreshing = false;
+let refreshRequested = false;
+
 // Membuat salinan data agar konfigurasi tidak berubah dari luar.
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
+}
+
+// Memastikan payload trigger berupa object.
+function normalizePayload(payload) {
+  return (
+    payload &&
+    typeof payload === 'object' &&
+    !Array.isArray(payload)
+  )
+    ? payload
+    : {};
 }
 
 // Memeriksa kecocokan payload dengan kondisi trigger.
@@ -27,16 +43,25 @@ function matchesPayload(expected = {}, payload = {}) {
   });
 }
 
-// Memeriksa seluruh persyaratan sebuah event.
+// Memeriksa apakah seluruh persyaratan sebuah event terpenuhi.
 function meetsRequirements(storyEvent) {
-  const selectedEpisode = getSelectedEpisode();
+  const currentEpisode = getCurrentEpisode();
 
-  if (!selectedEpisode) return false;
+  if (!currentEpisode) return false;
 
-  if (storyEvent.episodeId !== selectedEpisode.id) {
+  // Event hanya berlaku pada episode yang sedang berjalan.
+  if (storyEvent.episodeId !== currentEpisode.id) {
     return false;
   }
 
+  // Pastikan checkpoint episode tersebut sudah terbuka.
+  const progress = getEpisodeProgress(storyEvent.episodeId);
+
+  if (!progress?.unlocked) {
+    return false;
+  }
+
+  // Pastikan tanggal event sesuai dengan episode.
   if (
     storyEvent.date &&
     !isDateInEpisode(storyEvent.date, storyEvent.episodeId)
@@ -46,9 +71,17 @@ function meetsRequirements(storyEvent) {
 
   const requirements = storyEvent.requires || {};
 
-  const requiredInteractions = requirements.interactions || [];
+  const requiredInteractions = Array.isArray(
+    requirements.interactions
+  )
+    ? requirements.interactions
+    : [];
 
-  const requiredEvents = requirements.completedEvents || [];
+  const requiredEvents = Array.isArray(
+    requirements.completedEvents
+  )
+    ? requirements.completedEvents
+    : [];
 
   const interactionsComplete = requiredInteractions.every(
     (interactionId) => hasInteraction(interactionId)
@@ -63,32 +96,58 @@ function meetsRequirements(storyEvent) {
 
 // Memperbarui status locked dan available.
 export function refreshStoryEvents() {
+  // Mencegah refresh bersarang akibat perubahan Story State.
+  if (isRefreshing) {
+    refreshRequested = true;
+
+    return {
+      available: [],
+      locked: []
+    };
+  }
+
+  isRefreshing = true;
+
   const results = {
     available: [],
     locked: []
   };
 
-  registeredEvents.forEach((storyEvent, eventId) => {
-    const currentStatus = getEventStatus(eventId);
+  try {
+    do {
+      refreshRequested = false;
 
-    // Event yang sudah berjalan tidak dikunci kembali.
-    if (
-      currentStatus === 'triggered' ||
-      currentStatus === 'completed'
-    ) {
-      return;
-    }
+      registeredEvents.forEach((storyEvent, eventId) => {
+        const currentStatus = getEventStatus(eventId);
 
-    const eligible = meetsRequirements(storyEvent);
+        // Event yang sudah dipicu atau selesai tidak diulang.
+        if (
+          currentStatus === 'triggered' ||
+          currentStatus === 'completed'
+        ) {
+          return;
+        }
 
-    if (eligible && currentStatus === 'locked') {
-      setEventStatus(eventId, 'available');
-      results.available.push(eventId);
-    } else if (!eligible && currentStatus === 'available') {
-      setEventStatus(eventId, 'locked');
-      results.locked.push(eventId);
-    }
-  });
+        const eligible = meetsRequirements(storyEvent);
+
+        if (eligible && currentStatus !== 'available') {
+          const updated = setEventStatus(eventId, 'available');
+
+          if (updated) {
+            results.available.push(eventId);
+          }
+        } else if (!eligible && currentStatus !== 'locked') {
+          const updated = setEventStatus(eventId, 'locked');
+
+          if (updated) {
+            results.locked.push(eventId);
+          }
+        }
+      });
+    } while (refreshRequested);
+  } finally {
+    isRefreshing = false;
+  }
 
   return results;
 }
@@ -96,21 +155,24 @@ export function refreshStoryEvents() {
 // Menjalankan trigger ketika event aplikasi diterima.
 function handleTrigger(storyEvent, payload = {}) {
   const eventId = storyEvent.id;
+  const normalizedPayload = normalizePayload(payload);
 
-  // Pastikan event memang sudah tersedia.
+  // Event harus tersedia terlebih dahulu.
   if (getEventStatus(eventId) !== 'available') {
     return false;
   }
 
-  // Pastikan syarat masih terpenuhi.
+  // Periksa kembali seluruh persyaratan.
   if (!meetsRequirements(storyEvent)) {
     refreshStoryEvents();
+
     return false;
   }
 
   const trigger = storyEvent.trigger || {};
 
-  if (!matchesPayload(trigger.match, payload)) {
+  // Periksa kondisi payload.
+  if (!matchesPayload(trigger.match, normalizedPayload)) {
     return false;
   }
 
@@ -122,21 +184,40 @@ function handleTrigger(storyEvent, payload = {}) {
   emit('story:event:triggered', {
     eventId,
     storyEvent: clone(storyEvent),
-    triggerPayload: clone(payload)
+    triggerPayload: clone(normalizedPayload)
   });
+
+  return true;
+}
+
+// Mencatat interaksi pembaca.
+export function recordStoryInteraction(interaction = {}) {
+  const updated = recordInteraction(interaction);
+
+  if (!updated) return false;
+
+  emit('story:interaction:recorded', {
+    interaction: clone(interaction)
+  });
+
+  // Story State juga memicu refresh melalui Event Bus.
+  refreshStoryEvents();
 
   return true;
 }
 
 // Menginisialisasi Story Engine.
 export function initStoryEngine(events = []) {
-  // Bersihkan listener dari inisialisasi sebelumnya.
+  // Bersihkan inisialisasi sebelumnya.
   cleanupStoryEngine();
 
   registeredEvents = new Map();
 
   if (!Array.isArray(events)) {
-    console.error('Daftar Story Events harus berupa array.');
+    console.error(
+      'Daftar Story Events harus berupa array.'
+    );
+
     return () => cleanupStoryEngine();
   }
 
@@ -145,10 +226,16 @@ export function initStoryEngine(events = []) {
     if (
       !storyEvent ||
       typeof storyEvent.id !== 'string' ||
+      !storyEvent.id.trim() ||
       typeof storyEvent.episodeId !== 'string' ||
-      typeof storyEvent.trigger?.event !== 'string'
+      typeof storyEvent.trigger?.event !== 'string' ||
+      !storyEvent.trigger.event.trim()
     ) {
-      console.warn('Konfigurasi Story Event tidak valid:', storyEvent);
+      console.warn(
+        'Konfigurasi Story Event tidak valid:',
+        storyEvent
+      );
+
       return;
     }
 
@@ -156,6 +243,7 @@ export function initStoryEngine(events = []) {
       console.warn(
         `Story Event duplikat: ${storyEvent.id}`
       );
+
       return;
     }
 
@@ -193,6 +281,7 @@ export function initStoryEngine(events = []) {
     );
   });
 
+  // Periksa status seluruh event saat pertama kali aktif.
   refreshStoryEvents();
 
   console.info(
@@ -241,5 +330,8 @@ export function cleanupStoryEngine() {
   cleanupListeners.forEach((cleanup) => cleanup());
 
   cleanupListeners = [];
-}
+  registeredEvents.clear();
 
+  isRefreshing = false;
+  refreshRequested = false;
+}
