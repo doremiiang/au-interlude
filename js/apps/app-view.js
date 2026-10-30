@@ -530,6 +530,7 @@ export function renderApp(app, surface, onClose) {
   // MESSAGES — LOAD AS SEPARATE MODULE
   // ----------------------------------------
 
+
   if (app.id === 'messages') {
     let disposed = false;
     let cleanupMessages = null;
@@ -558,6 +559,68 @@ export function renderApp(app, surface, onClose) {
           cleanupMessages = null;
         }
       })
+      .catch((error) => {
+        console.error('Gagal memuat Messages:', error);
+
+        if (disposed) return;
+
+        surface.innerHTML = `
+          ${appHeader('Messages')}
+          <section class="generic-app-screen">
+            ${emptyState({
+              icon: 'message',
+              title: 'Messages gagal dimuat',
+              description: 'Detail error ditampilkan di bawah.'
+            })}
+
+            <pre
+              data-role="messages-error"
+              style="
+                margin: 16px;
+                padding: 12px;
+                background: #fff0f0;
+                color: #b00020;
+                border-radius: 8px;
+                font-size: 11px;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+              "
+            ></pre>
+          </section>
+        `;
+
+        const errorBox = surface.querySelector(
+          '[data-role="messages-error"]'
+        );
+
+        if (errorBox) {
+          errorBox.textContent =
+            error?.stack || error?.message || String(error);
+        }
+
+        fallbackHandler = (event) => {
+          if (event.target.closest('[data-action="back"]')) {
+            onClose();
+          }
+        };
+
+        surface.addEventListener('click', fallbackHandler);
+      });
+
+    return () => {
+      disposed = true;
+
+      if (fallbackHandler) {
+        surface.removeEventListener('click', fallbackHandler);
+      }
+
+      if (typeof cleanupMessages === 'function') {
+        cleanupMessages();
+      }
+    };
+  }
+
+      
       .catch((error) => {
   console.error('Gagal memuat Messages:', error);
 
