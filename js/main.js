@@ -16,6 +16,7 @@ const homeScreen = document.querySelector('#home-screen');
 const appLayer = document.querySelector('#app-layer');
 const appSurface = document.querySelector('#app-surface');
 const homeIndicator = document.querySelector('#home-indicator');
+const lockScreen = document.querySelector('#lock-screen');
 const storyMenu = document.querySelector('#story-menu');
 const storyMenuActions = document.querySelector('#story-menu-actions');
 
@@ -30,6 +31,7 @@ function validateRequiredElements() {
     appLayer,
     appSurface,
     homeIndicator,
+    lockScreen,
     storyMenu,
     storyMenuActions
   };
@@ -89,8 +91,9 @@ function updateStoryMenu() {
   }
 }
 
-// Menampilkan Story Menu setelah iPhone dibuka.
+// PATCH: Menampilkan Story Menu sebagai halaman pertama saat website dibuka.
 function showStoryMenu() {
+  lockScreen.classList.add('is-hidden');
   homeScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
   storyMenu.classList.remove('is-hidden');
@@ -98,9 +101,18 @@ function showStoryMenu() {
   updateStoryMenu();
 }
 
-// Menampilkan Home Screen.
+// PATCH: Masuk ke Lock Screen setelah pembaca memilih cerita.
+function showLockScreen() {
+  storyMenu.classList.add('is-hidden');
+  homeScreen.classList.add('is-hidden');
+  appLayer.classList.add('is-hidden');
+  lockScreen.classList.remove('is-hidden');
+}
+
+// Menampilkan Home Screen setelah passcode berhasil.
 function showHomeScreen() {
   storyMenu.classList.add('is-hidden');
+  lockScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
   homeScreen.classList.remove('is-hidden');
 }
@@ -256,13 +268,13 @@ function handleStoryMenuAction(event) {
     }
 
     startStory();
-    showHomeScreen();
+    showLockScreen();
     return;
   }
 
   if (action === 'continue') {
-    // PATCH: Resume posisi persis akan diintegrasikan pada tahap berikutnya.
-    showHomeScreen();
+    // PATCH: Pembaca tetap melewati Lock Screen sebelum masuk ke HP.
+    showLockScreen();
     return;
   }
 
@@ -275,7 +287,7 @@ function handleStoryMenuAction(event) {
 
     resetStoryState();
     startStory();
-    showHomeScreen();
+    showLockScreen();
   }
 }
 
@@ -335,7 +347,8 @@ function initApp() {
   // Story Engine masih menggunakan daftar event kosong untuk tahap ini.
   initStoryEngine([]);
 
-  initLockScreen(showStoryMenu);
+  // PATCH: Passcode berhasil akan membawa pembaca ke Home Screen.
+  initLockScreen(showHomeScreen);
 
   storyMenuActions.addEventListener('click', handleStoryMenuAction);
   document.addEventListener('click', handleAppClick);
@@ -343,6 +356,9 @@ function initApp() {
   window.addEventListener('keydown', handleKeydown);
 
   registerServiceWorker();
+
+  // PATCH: Tampilkan Story Menu langsung pada kunjungan pertama.
+  showStoryMenu();
 }
 
 initApp();
