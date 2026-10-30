@@ -3,15 +3,77 @@ import { APPS } from '../data/apps.js';
 import { iconSvg } from './core/icons.js';
 import { startClock } from './core/clock.js';
 import { initLockScreen } from './core/lockscreen.js';
+import { initStoryEngine } from './core/story-engine.js';
+
+import {
+  hasStartedStory,
+  isStoryCompleted,
+  startStory,
+  resetStoryState
+} from './core/story-state.js';
 
 const homeScreen = document.querySelector('#home-screen');
 const appLayer = document.querySelector('#app-layer');
 const appSurface = document.querySelector('#app-surface');
 const homeIndicator = document.querySelector('#home-indicator');
 
+const storyMenu = document.querySelector('#story-menu');
+const storyMenuActions = document.querySelector('#story-menu-actions');
+
 let cleanupCurrentApp = null;
 let currentApp = null;
 let appLoadToken = 0;
+
+// Memperbarui tombol berdasarkan progres cerita.
+function updateStoryMenu() {
+  const newButton = storyMenuActions.querySelector(
+    '[data-story-action="new"]'
+  );
+
+  const continueButton = storyMenuActions.querySelector(
+    '[data-story-action="continue"]'
+  );
+
+  const checkpointButton = storyMenuActions.querySelector(
+    '[data-story-action="checkpoints"]'
+  );
+
+  const restartButton = storyMenuActions.querySelector(
+    '[data-story-action="restart"]'
+  );
+
+  const started = hasStartedStory();
+  const completed = isStoryCompleted();
+
+  newButton.textContent = completed
+    ? 'Replay Story'
+    : 'New Story';
+
+  newButton.hidden = started && !completed;
+  continueButton.hidden = !started || completed;
+  checkpointButton.hidden = !started;
+  restartButton.hidden = !started || completed;
+
+  // Fitur pemilihan checkpoint akan diaktifkan
+  // setelah tampilan pemilih checkpoint dibuat.
+  checkpointButton.disabled = true;
+}
+
+// Menampilkan Story Menu setelah iPhone dibuka.
+function showStoryMenu() {
+  homeScreen.classList.add('is-hidden');
+  appLayer.classList.add('is-hidden');
+  storyMenu.classList.remove('is-hidden');
+
+  updateStoryMenu();
+}
+
+// Menampilkan Home Screen.
+function showHomeScreen() {
+  storyMenu.classList.add('is-hidden');
+  appLayer.classList.add('is-hidden');
+  homeScreen.classList.remove('is-hidden');
+}
 
 // Membuat tombol aplikasi.
 function createAppButton(app) {
@@ -139,15 +201,55 @@ async function openApp(appId) {
     `;
   }
 }
+
+// Menangani pilihan pada Story Menu.
+storyMenuActions.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-story-action]');
+
+  if (!button || button.disabled) return;
+
+  const action = button.dataset.storyAction;
+
+  if (action === 'new') {
+    if (isStoryCompleted()) {
+      resetStoryState();
+    }
+
+    startStory();
+    showHomeScreen();
+    return;
+  }
+
+  if (action === 'continue') {
+    showHomeScreen();
+    return;
+  }
+
+  if (action === 'restart') {
+    const confirmed = window.confirm(
+      'Restart Story? Your current story progress will be reset.'
+    );
+
+    if (!confirmed) return;
+
+    resetStoryState();
+    startStory();
+    showHomeScreen();
+  }
+});
+
 // Inisialisasi Home Screen.
 renderHomeIcons();
 
 // Inisialisasi jam.
 startClock();
 
+// Inisialisasi Story Engine.
+initStoryEngine([]);
+
 // Inisialisasi Lock Screen.
 initLockScreen(() => {
-  homeScreen.classList.remove('is-hidden');
+  showStoryMenu();
 });
 
 // Event delegation untuk semua ikon aplikasi.
