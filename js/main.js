@@ -3,7 +3,7 @@ import { APPS } from '../data/apps.js';
 import { iconSvg } from './core/icons.js';
 import { startClock } from './core/clock.js';
 import { initLockScreen } from './core/lockscreen.js';
-import { renderApp } from './apps/app-view.js';
+//import { renderApp } from './apps/app-view.js';
 
 const homeScreen = document.querySelector('#home-screen');
 const appLayer = document.querySelector('#app-layer');
