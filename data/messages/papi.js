@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "bian": [
+export const BIAN_MESSAGES = [
     {
       "id": "bian-001",
       "direction": "incoming",
@@ -237,6 +236,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-28",
       "time": "13:00"
     }
-  ]
-};
-
+  ];
