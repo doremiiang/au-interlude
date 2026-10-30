@@ -5,7 +5,6 @@
    spacing and component sizes fluid across screen sizes.
    ========================================================= */
 
-/* Interlude - Homescreen Styles */
 .home-screen {
   /* Fluid design tokens: the limits keep the UI recognizable. */
   --home-side-space: clamp(16px, 5.1vw, 20px);
