@@ -101,7 +101,9 @@ function showStoryMenu() {
   homeScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
   storyMenu.classList.remove('is-hidden');
-
+window.dispatchEvent(
+  new CustomEvent('interlude:app-opened')
+);
   updateStoryMenu();
 }
 
