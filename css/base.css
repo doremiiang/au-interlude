@@ -24,3 +24,16 @@ body.clock-pending #status-time,
 body.clock-pending #lock-clock {
   visibility: hidden;
 }
+
+/* Hilangkan highlight biru saat tombol disentuh di Android */
+button,
+a,
+input,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Pertahankan indikator fokus untuk navigasi keyboard */
+button:focus:not(:focus-visible) {
+  outline: none;
+}
