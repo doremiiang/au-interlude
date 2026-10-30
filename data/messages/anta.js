@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "anta": [
+export const ANTA_MESSAGES = [
     {
       "id": "anta-001",
       "direction": "incoming",
@@ -260,6 +259,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-29",
       "time": "14:25"
     }
-  ]
-};
-
+  ];
