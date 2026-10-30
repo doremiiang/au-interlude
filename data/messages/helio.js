@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "helio": [
+export const HELIO_MESSAGES = [
     {
       "id": "helio-001",
       "direction": "incoming",
@@ -139,6 +138,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-27",
       "time": "11:25"
     }
-  ]
-};
-
+  ];
