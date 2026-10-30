@@ -1,9 +1,26 @@
 
 import { CONFIG } from '../../data/config.js';
 
-const formatTime = (date, options) => {
-  return new Intl.DateTimeFormat(CONFIG.locale, options).format(date);
-};
+const timeFormatter = new Intl.DateTimeFormat(CONFIG.locale, {
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23'
+});
+
+const dateFormatter = new Intl.DateTimeFormat(CONFIG.locale, {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long'
+});
+
+function formatTime(date) {
+  const parts = timeFormatter.formatToParts(date);
+
+  const hour = parts.find((part) => part.type === 'hour')?.value ?? '00';
+  const minute = parts.find((part) => part.type === 'minute')?.value ?? '00';
+
+  return `${hour}:${minute}`;
+}
 
 export function startClock() {
   const lockClock = document.querySelector('#lock-clock');
@@ -15,21 +32,10 @@ export function startClock() {
   function update() {
     const now = new Date();
 
-    // Format waktu 24 jam.
-    const time = formatTime(now, {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    });
+    const time = formatTime(now);
+    const date = dateFormatter.format(now);
 
-    // Format tanggal Indonesia.
-    const date = formatTime(now, {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long'
-    });
-
-    // Lock Screen.
+    // Lock Screen: 14:30
     if (lockClock) {
       lockClock.textContent = time;
     }
@@ -38,7 +44,7 @@ export function startClock() {
       lockDate.textContent = date;
     }
 
-    // Status Bar.
+    // Status Bar: 14.30
     if (statusTime) {
       statusTime.textContent = time.replace(':', '.');
     }
@@ -51,15 +57,15 @@ export function startClock() {
     if (calendarDay) {
       calendarDay.textContent = String(now.getDate());
     }
+
+    // Tampilkan jam setelah nilainya sudah diperbarui.
+    document.body.classList.remove('clock-pending');
   }
 
-  // Tampilkan waktu langsung tanpa menunggu interval.
   update();
 
-  // Perbarui waktu setiap detik.
   const intervalId = window.setInterval(update, 1000);
 
-  // Fungsi untuk menghentikan interval jika diperlukan.
   return function cleanupClock() {
     window.clearInterval(intervalId);
   };
