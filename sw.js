@@ -1,37 +1,26 @@
 
-// Service worker — cache versioning
 const CACHE_PREFIX = 'interlude-shell-';
-const CACHE_NAME = `${CACHE_PREFIX}v5`;
+const CACHE_NAME = `${CACHE_PREFIX}v6`;
 
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
 
-  // CSS
   './css/base.css',
   './css/phone.css',
   './css/lockscreen.css',
   './css/homescreen.css',
   './css/apps.css',
 
-  // Core JavaScript
   './js/main.js',
   './js/core/icons.js',
   './js/core/clock.js',
   './js/core/lockscreen.js',
-  './js/core/navigation.js',
-
-  // App modules
   './js/apps/app-view.js',
-  './js/apps/messages.js',
 
-  // Data
   './data/config.js',
   './data/apps.js',
-  './data/messages.js',
-
-  // Assets
   './assets/icons/app-icon.svg'
 ];
 
