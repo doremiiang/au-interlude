@@ -18,3 +18,9 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 .stage { min-height: 100svh; display: grid; place-items: center; padding: 24px; position: relative; }
 .stage-hint { position: absolute; bottom: 14px; margin: 0; color: rgba(255,255,255,.38); font-size: 9px; letter-spacing: .24em; font-weight: 700; }
 .stage-hint span { color: var(--accent); padding: 0 5px; }
+
+/* Sembunyikan jam sampai JavaScript mengatur waktu yang benar. */
+body.clock-pending #status-time,
+body.clock-pending #lock-clock {
+  visibility: hidden;
+}
