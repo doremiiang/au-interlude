@@ -3,7 +3,6 @@ import { APPS } from '../data/apps.js';
 import { iconSvg } from './core/icons.js';
 import { startClock } from './core/clock.js';
 import { initLockScreen } from './core/lockscreen.js';
-//import { renderApp } from './apps/app-view.js';
 
 const homeScreen = document.querySelector('#home-screen');
 const appLayer = document.querySelector('#app-layer');
@@ -72,6 +71,7 @@ function cleanupActiveApp() {
 
 // Kembali ke Home Screen.
 function closeApp() {
+  appLoadToken++;
   cleanupActiveApp();
 
   currentApp = null;
@@ -84,12 +84,14 @@ function closeApp() {
 }
 
 // Membuka aplikasi berdasarkan ID.
-function openApp(appId) {
+async function openApp(appId) {
   const app = APPS.find((item) => item.id === appId);
 
   if (!app) return;
 
   cleanupActiveApp();
+
+  const loadToken = ++appLoadToken;
 
   currentApp = app.id;
 
@@ -97,9 +99,26 @@ function openApp(appId) {
   appLayer.classList.remove('is-hidden');
 
   appSurface.scrollTop = 0;
-  appSurface.replaceChildren();
+
+  appSurface.innerHTML = `
+    <div class="generic-app-screen">
+      <p>Loading ${app.name}...</p>
+    </div>
+  `;
 
   try {
+    // Muat modul aplikasi hanya saat diperlukan.
+    const { renderApp } = await import('./apps/app-view.js');
+
+    // Abaikan hasil jika pengguna sudah berpindah aplikasi.
+    if (loadToken !== appLoadToken) return;
+
+    if (typeof renderApp !== 'function') {
+      throw new TypeError('renderApp tidak ditemukan.');
+    }
+
+    appSurface.replaceChildren();
+
     const cleanup = renderApp(app, appSurface, closeApp);
 
     cleanupCurrentApp =
@@ -108,16 +127,17 @@ function openApp(appId) {
   } catch (error) {
     console.error(`Gagal membuka aplikasi ${app.name}:`, error);
 
-    currentApp = null;
+    if (loadToken !== appLoadToken) return;
 
-    const message = document.createElement('p');
-    message.className = 'app-error-message';
-    message.textContent = 'Aplikasi tidak dapat dibuka. Silakan coba lagi.';
-
-    appSurface.replaceChildren(message);
+    appSurface.innerHTML = `
+      <div class="generic-app-screen">
+        <h2>Aplikasi tidak dapat dibuka</h2>
+        <p>Terjadi kesalahan saat memuat ${app.name}.</p>
+        <p>Silakan periksa Console untuk detail error.</p>
+      </div>
+    `;
   }
 }
-
 // Inisialisasi Home Screen.
 renderHomeIcons();
 
