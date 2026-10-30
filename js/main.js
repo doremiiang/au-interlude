@@ -3,6 +3,8 @@ import { iconSvg } from './core/icons.js';
 import { startClock } from './core/clock.js';
 import { initLockScreen } from './core/lockscreen.js';
 import { initStoryEngine } from './core/story-engine.js';
+import { initNotificationManager } from './core/notification-manager.js';
+import { on } from './core/event-bus.js';
 
 import {
   hasStartedStory,
@@ -104,11 +106,16 @@ function showStoryMenu() {
 }
 
 // PATCH: Masuk ke Lock Screen setelah pembaca memilih cerita.
-function showLockScreen() {
+
+function showHomeScreen() {
   storyMenu.classList.add('is-hidden');
-  homeScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
-  lockScreen.classList.remove('is-hidden');
+  homeScreen.classList.remove('is-hidden');
+
+  // Memberi tahu Notification Manager bahwa Home Screen siap.
+  window.dispatchEvent(
+    new CustomEvent('interlude:home-ready')
+  );
 }
 
 // Menampilkan Home Screen setelah passcode berhasil.
