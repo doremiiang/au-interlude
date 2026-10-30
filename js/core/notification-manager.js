@@ -28,6 +28,8 @@ const STORAGE_KEY = 'interlude-notifications-v1';
 // Elemen HTML.
 let notificationCenter = null;
 
+let homeScreen = null;
+
 // Data notifikasi.
 let notifications = {};
 
@@ -221,9 +223,15 @@ function createNotificationElement(item) {
   return button;
 }
 
-// Merender notifikasi yang belum dibaca.
+
 export function renderNotifications() {
   if (!notificationCenter) return;
+
+  // Notifikasi hanya boleh terlihat di Home Screen.
+  if (!homeScreen || homeScreen.classList.contains('is-hidden')) {
+    notificationCenter.hidden = true;
+    return;
+  }
 
   const unread = getUnreadNotifications();
 
@@ -248,6 +256,14 @@ function handleHomeReady() {
   renderNotifications();
 }
 
+
+function handleAppOpened() {
+  if (notificationCenter) {
+    notificationCenter.hidden = true;
+  }
+}
+
+
 // Menghapus seluruh notifikasi.
 function clearNotifications() {
   notifications = {};
@@ -265,6 +281,8 @@ export function initNotificationManager() {
   notificationCenter = document.querySelector(
     '#notification-center'
   );
+
+homeScreen = document.querySelector('#home-screen');
 
   if (!notificationCenter) {
     console.error(
@@ -301,6 +319,18 @@ export function initNotificationManager() {
     handleHomeReady
   );
 
+window.addEventListener(
+  'interlude:app-opened',
+  handleAppOpened
+);
+
+cleanupListeners.push(() => {
+  window.removeEventListener(
+    'interlude:app-opened',
+    handleAppOpened
+  );
+});
+
   // Simpan fungsi cleanup untuk event browser.
   cleanupListeners.push(() => {
     window.removeEventListener(
@@ -333,6 +363,7 @@ export function cleanupNotificationManager() {
     notificationCenter.hidden = true;
   }
 
+homeScreen = null;
   notificationCenter = null;
   isInitialized = false;
 }
