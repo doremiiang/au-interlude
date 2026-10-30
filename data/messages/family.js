@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "family": [
+export const FAMILY_MESSAGES = [
     {
       "id": "family-001",
       "direction": "incoming",
@@ -492,6 +491,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-27",
       "time": "13:40"
     }
-  ]
-};
-
+  ];
