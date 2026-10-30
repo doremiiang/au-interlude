@@ -700,3 +700,42 @@ padding-left: 12px;
   margin-left: auto !important;
   margin-right: 0 !important;
 }
+
+/* =================================
+   FIX MESSAGES CHAT SCROLL
+================================= */
+
+.message-thread {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.thread-history {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 12px 14px 24px;
+}
+
+.message-bubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-height: 100%;
+}
+
+.message-bubble {
+  flex-shrink: 0;
+}
+
+.message-date-divider {
+  flex-shrink: 0;
+}
