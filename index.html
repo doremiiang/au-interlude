@@ -133,7 +133,16 @@
           <div class="app-surface" id="app-surface"></div>
         </section>
 
-        <button class="home-indicator" id="home-indicator" type="button" aria-label="Return to Home"></button>
+        <!-- PATCH: Wadah notifikasi iPhone; kontennya dikelola Notification Manager. -->
+        <div
+          class="notification-center"
+          id="notification-center"
+          aria-live="polite"
+          aria-relevant="additions"
+          aria-label="Notifications"
+        ></div>
+
+         <button class="home-indicator" id="home-indicator" type="button" aria-label="Return to Home"></button>
       </div>
     </section>
     <p class="stage-hint">INTERLUDE <span>·</span> SHAQIL NARAYA'S IPHONE</p>
