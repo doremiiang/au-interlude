@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "mara": [
+export const SAMARA_MESSAGES = [
     {
       "id": "mara-001",
       "direction": "incoming",
@@ -268,6 +267,5 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-28",
       "time": "16:22"
     }
-  ]
-};
+  ];
 
