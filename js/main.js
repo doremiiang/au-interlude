@@ -392,5 +392,3 @@ showStoryMenu();
 }
 
 initApp();
-
-Cek
