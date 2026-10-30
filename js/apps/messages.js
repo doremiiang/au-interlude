@@ -71,17 +71,15 @@ return [...messages].sort(
 };
 
 const getContactPreview = (contactId) => {
-const lastMessage = getLastMessage(contactId);
+  const lastMessage = getLastMessage(contactId);
 
-if (!lastMessage) return 'Belum ada pesan.';
+  if (!lastMessage) return 'Belum ada pesan.';
 
-const prefix = lastMessage.sender === 'shaqil'
-? 'Anda: '
-: contactId === 'family'
-? ${getContact(lastMessage.sender)?.name || lastMessage.sender}: 
-: '';
+  const prefix = lastMessage.direction === 'outgoing'
+    ? 'Anda: '
+    : '';
 
-return prefix + lastMessage.text;
+  return prefix + lastMessage.text;
 };
 
 const getPreviewTime = (contactId) => {
