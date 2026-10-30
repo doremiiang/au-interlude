@@ -2,11 +2,12 @@
 import { EPISODES } from '../../data/timeline.js';
 
 import {
-  getSelectedEpisode as getSavedEpisode,
-  setSelectedEpisode as saveSelectedEpisode
+  getCurrentEpisode as getSavedCurrentEpisode,
+  setCurrentEpisode as saveCurrentEpisode,
+  getCheckpoint
 } from './story-state.js';
 
-// Memvalidasi tanggal dengan format YYYY-MM-DD.
+// Memvalidasi format tanggal YYYY-MM-DD.
 function isValidDate(dateString) {
   if (
     typeof dateString !== 'string' ||
@@ -46,12 +47,10 @@ export function getEpisode(episodeId) {
 export function getEpisodeForDate(dateString) {
   if (!isValidDate(dateString)) return null;
 
-  const episode = EPISODES.find((item) => {
-    return (
-      dateString >= item.startDate &&
-      dateString <= item.endDate
-    );
-  });
+  const episode = EPISODES.find((item) => (
+    dateString >= item.startDate &&
+    dateString <= item.endDate
+  ));
 
   return episode ? { ...episode } : null;
 }
@@ -70,20 +69,74 @@ export function isDateInEpisode(dateString, episodeId) {
   );
 }
 
-// Mengambil episode yang sedang dipilih pembaca.
-export function getSelectedEpisode() {
-  const episode = getEpisode(getSavedEpisode());
+// Mengambil episode yang sedang berjalan.
+export function getCurrentEpisode() {
+  const episodeId = getSavedCurrentEpisode();
 
-  return episode || getEpisode(EPISODES[0]?.id);
+  return (
+    getEpisode(episodeId) ||
+    getEpisode(EPISODES[0]?.id)
+  );
 }
 
-// Mengubah episode pilihan pembaca.
-export function selectEpisode(episodeId) {
-  if (!getEpisode(episodeId)) {
+// Mengubah episode aktif.
+// Hanya episode dengan checkpoint terbuka yang bisa dipilih.
+export function setCurrentEpisode(episodeId) {
+  const episode = getEpisode(episodeId);
+
+  if (!episode) return false;
+
+  const checkpoint = getCheckpoint(
+    `checkpoint-${String(episode.number).padStart(2, '0')}`
+  );
+
+  if (!checkpoint?.unlocked) {
     return false;
   }
 
-  return saveSelectedEpisode(episodeId);
+  return saveCurrentEpisode(episodeId);
+}
+
+// Mengambil episode yang sudah terbuka.
+export function getUnlockedEpisodes() {
+  return EPISODES.filter((episode) => {
+    const checkpoint = getCheckpoint(
+      `checkpoint-${String(episode.number).padStart(2, '0')}`
+    );
+
+    return Boolean(checkpoint?.unlocked);
+  }).map((episode) => ({ ...episode }));
+}
+
+// Mengambil status progres sebuah episode.
+export function getEpisodeProgress(episodeId) {
+  const episode = getEpisode(episodeId);
+
+  if (!episode) return null;
+
+  const checkpointId =
+    `checkpoint-${String(episode.number).padStart(2, '0')}`;
+
+  const checkpoint = getCheckpoint(checkpointId);
+
+  return {
+    episodeId,
+    checkpointId,
+    unlocked: Boolean(checkpoint?.unlocked),
+    completed: Boolean(checkpoint?.completed),
+    completedAt: checkpoint?.completedAt ?? null
+  };
+}
+
+// Kompatibilitas sementara dengan Story Engine versi lama.
+// Fungsi ini mengembalikan objek episode, bukan ID.
+export function getSelectedEpisode() {
+  return getCurrentEpisode();
+}
+
+// Kompatibilitas sementara dengan kode lama.
+export function selectEpisode(episodeId) {
+  return setCurrentEpisode(episodeId);
 }
 
 // Mengambil episode sebelum atau sesudah episode tertentu.
@@ -92,14 +145,32 @@ export function getAdjacentEpisode(episodeId, direction = 1) {
     (episode) => episode.id === episodeId
   );
 
-  if (index === -1) return null;
+  if (index === -1 || !Number.isFinite(direction)) {
+    return null;
+  }
 
   const nextIndex = index + Math.sign(direction);
 
-  if (nextIndex < 0 || nextIndex >= EPISODES.length) {
+  if (
+    nextIndex < 0 ||
+    nextIndex >= EPISODES.length
+  ) {
     return null;
   }
 
   return { ...EPISODES[nextIndex] };
 }
 
+// Mengambil episode berikutnya yang sudah terbuka.
+export function getAdjacentUnlockedEpisode(
+  episodeId,
+  direction = 1
+) {
+  const adjacent = getAdjacentEpisode(episodeId, direction);
+
+  if (!adjacent) return null;
+
+  const checkpoint = getEpisodeProgress(adjacent.id);
+
+  return checkpoint?.unlocked ? adjacent : null;
+}
