@@ -1,4 +1,4 @@
-export const BIAN_MESSAGES = [
+export const PAPI_MESSAGES = [
     {
       "id": "bian-001",
       "direction": "incoming",
