@@ -1,1 +1,13 @@
+{
+  "name": "Interlude — Shaqil's iPhone",
+  "short_name": "Interlude",
+  "description": "An interactive AU phone experience.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#111018",
+  "theme_color": "#111018",
+  "icons": [
+    { "src": "assets/icons/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
 
