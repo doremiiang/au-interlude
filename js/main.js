@@ -105,17 +105,13 @@ function showStoryMenu() {
   updateStoryMenu();
 }
 
-// PATCH: Masuk ke Lock Screen setelah pembaca memilih cerita.
 
-function showHomeScreen() {
+// Menampilkan Lock Screen sebelum masuk ke Home Screen.
+function showLockScreen() {
   storyMenu.classList.add('is-hidden');
+  homeScreen.classList.add('is-hidden');
   appLayer.classList.add('is-hidden');
-  homeScreen.classList.remove('is-hidden');
-
-  // Memberi tahu Notification Manager bahwa Home Screen siap.
-  window.dispatchEvent(
-    new CustomEvent('interlude:home-ready')
-  );
+  lockScreen.classList.remove('is-hidden');
 }
 
 // Menampilkan Home Screen setelah passcode berhasil.
@@ -190,9 +186,9 @@ function cleanupActiveApp() {
   cleanupCurrentApp = null;
 }
 
-// Kembali ke Home Screen.
+
 function closeApp() {
-  // PATCH: Batalkan hasil import yang masih berjalan.
+  // Batalkan hasil import yang masih berjalan.
   appLoadToken++;
 
   cleanupActiveApp();
@@ -203,6 +199,11 @@ function closeApp() {
 
   appSurface.replaceChildren();
   appSurface.scrollTop = 0;
+
+  // Perbarui notifikasi ketika kembali ke Home Screen.
+  window.dispatchEvent(
+    new CustomEvent('interlude:home-ready')
+  );
 }
 
 // Membuka aplikasi berdasarkan ID.
@@ -263,6 +264,14 @@ async function openApp(appId) {
       </div>
     `;
   }
+}
+
+
+// Membuka aplikasi tujuan ketika notifikasi diketuk.
+function handleNotificationOpen({ update } = {}) {
+  if (!update || !update.appId) return;
+
+  openApp(update.appId);
 }
 
 // Menangani pilihan pada Story Menu.
@@ -362,6 +371,12 @@ function initApp() {
 
   // Story Engine masih menggunakan daftar event kosong untuk tahap ini.
   initStoryEngine([]);
+
+  // Inisialisasi sistem notifikasi.
+  initNotificationManager();
+
+  // Hubungkan notifikasi dengan aplikasi tujuan.
+  on('notification:open', handleNotificationOpen);
 
   // PATCH: Passcode berhasil akan membawa pembaca ke Home Screen.
   initLockScreen(showHomeScreen);
