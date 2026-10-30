@@ -701,10 +701,17 @@ padding-left: 12px;
   margin-right: 0 !important;
 }
 
-/* =================================
-   FIX MESSAGES CHAT SCROLL
-================================= */
 
+/* =========================================
+   INTERLUDE — FIX CHAT INNER SCROLL
+========================================= */
+
+/* Area aplikasi */
+.app-surface {
+  min-height: 0;
+}
+
+/* Halaman percakapan */
 .message-thread {
   display: flex;
   flex-direction: column;
@@ -713,29 +720,45 @@ padding-left: 12px;
   overflow: hidden;
 }
 
-.thread-history {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
-  padding: 12px 14px 24px;
+/* Profil kontak tidak ikut mengecil */
+.thread-profile {
+  flex: 0 0 auto;
 }
 
+/* Area yang benar-benar bisa digulir */
+.thread-history {
+  display: block;
+  flex: 1 1 0;
+  height: 0;
+  min-height: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  padding: 12px 14px 28px;
+}
+
+/* Isi percakapan */
 .message-bubbles {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 8px;
   width: 100%;
   min-height: 100%;
 }
 
+/* Bubble tidak boleh mengecil */
 .message-bubble {
-  flex-shrink: 0;
+  flex: 0 0 auto;
 }
 
-.message-date-divider {
-  flex-shrink: 0;
+.message-incoming {
+  align-self: flex-start;
+}
+
+.message-outgoing {
+  align-self: flex-end;
 }
