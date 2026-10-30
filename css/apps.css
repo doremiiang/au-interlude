@@ -352,3 +352,370 @@
 .message-thread .message-composer {
   display: none;
 }
+
+/* =========================================
+   MESSAGES — GENERAL
+========================================= */
+
+.messages-header {
+  position: relative;
+}
+
+.messages-header-spacer {
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.messages-screen {
+  width: 100%;
+  height: calc(100% - 53px);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--app-bg, #fff);
+}
+
+.messages-page-title {
+  flex-shrink: 0;
+  padding: 18px 18px 12px;
+}
+
+.messages-page-title h2 {
+  margin: 0;
+  color: var(--app-text, #1c1c1e);
+  font-size: 27px;
+  font-weight: 750;
+  letter-spacing: -0.8px;
+}
+
+.messages-page-title p {
+  margin: 4px 0 0;
+  color: var(--app-muted, #8e8e93);
+  font-size: 12px;
+}
+
+/* =========================================
+   MESSAGES — SEARCH
+========================================= */
+
+.messages-search {
+  flex-shrink: 0;
+  margin: 0 16px 12px;
+  min-height: 36px;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  background: var(--app-search-bg, #eeeeef);
+}
+
+.messages-search svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #8e8e93;
+}
+
+.messages-search input {
+  width: 100%;
+  min-width: 0;
+  height: 36px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--app-text, #1c1c1e);
+  font: inherit;
+  font-size: 13px;
+}
+
+.messages-search input::placeholder {
+  color: #8e8e93;
+}
+
+/* =========================================
+   MESSAGES — CONTACT LIST
+========================================= */
+
+.message-contact-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 15px 20px;
+}
+
+.message-contact-row {
+  width: 100%;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--app-divider, #ededed);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.message-contact-row:active {
+  opacity: 0.65;
+}
+
+/* Avatar */
+
+.message-avatar {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #d9d9df, #a9a9b4);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+}
+
+.message-avatar-large {
+  width: 58px;
+  height: 58px;
+  font-size: 19px;
+}
+
+/* Contact information */
+
+.message-contact-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.message-contact-copy strong {
+  overflow: hidden;
+  color: var(--app-text, #1c1c1e);
+  font-size: 13px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-contact-copy span {
+  overflow: hidden;
+  color: var(--app-muted, #8e8e93);
+  font-size: 11px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-contact-meta {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--app-muted, #8e8e93);
+}
+
+.message-contact-meta time {
+  font-size: 10px;
+}
+
+.message-contact-meta svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Empty search */
+
+.message-list-empty {
+  padding: 35px 15px;
+  color: var(--app-muted, #8e8e93);
+  font-size: 13px;
+  text-align: center;
+}
+
+.message-list-empty p {
+  margin: 0;
+}
+
+/* =========================================
+   MESSAGES — THREAD
+========================================= */
+
+.message-thread {
+  width: 100%;
+  height: calc(100% - 53px);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--app-bg, #fff);
+}
+
+/* Contact profile */
+
+.thread-profile {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 16px 12px;
+  text-align: center;
+}
+
+.thread-profile strong {
+  color: var(--app-text, #1c1c1e);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.thread-profile > span:last-child {
+  color: var(--app-muted, #8e8e93);
+  font-size: 11px;
+}
+
+/* Conversation history */
+
+.thread-history {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 15px 24px;
+  scroll-behavior: smooth;
+}
+
+.message-bubbles {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* =========================================
+   MESSAGES — BUBBLES
+========================================= */
+
+.message-bubble {
+  width: fit-content;
+  max-width: 82%;
+  box-sizing: border-box;
+  padding: 9px 12px 6px;
+  border-radius: 18px;
+  overflow-wrap: anywhere;
+}
+
+.message-bubble p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.message-bubble time {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+  line-height: 1.2;
+  text-align: right;
+}
+
+/* Incoming */
+
+.message-bubble.message-incoming {
+  align-self: flex-start;
+  border-bottom-left-radius: 5px;
+  background: #e9e9eb;
+  color: #1c1c1e;
+}
+
+.message-bubble.message-incoming time {
+  color: #77777d;
+}
+
+/* Outgoing */
+
+.message-bubble.message-outgoing {
+  align-self: flex-end;
+  border-bottom-right-radius: 5px;
+  background: #0a84ff;
+  color: #fff;
+}
+
+.message-bubble.message-outgoing time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Group sender name */
+
+.message-sender-name {
+  display: block;
+  margin-bottom: 4px;
+  color: #3984c6;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Date divider */
+
+.message-date-divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 13px 0;
+}
+
+.message-date-divider span {
+  color: var(--app-muted, #8e8e93);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Empty conversation */
+
+.message-empty-history {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 16px;
+  color: var(--app-muted, #8e8e93);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* =========================================
+   MESSAGES — MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .messages-page-title {
+    padding-top: 16px;
+  }
+
+  .message-contact-row {
+    min-height: 68px;
+  }
+
+  .message-bubble {
+    max-width: 86%;
+  }
+
+  .thread-history {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
