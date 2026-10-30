@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "kenan": [
+export const KENAN_MESSAGES = [
     {
       "id": "kenan-001",
       "direction": "incoming",
@@ -279,6 +278,5 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-29",
       "time": "17:55"
     }
-  ]
-};
+  ];
 
