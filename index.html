@@ -1,1 +1,85 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111018">
+  <meta name="description" content="Interlude — a phone-sized interactive AU experience.">
+  <title>Interlude — Shaqil's iPhone</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/app-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/phone.css">
+  <link rel="stylesheet" href="css/lockscreen.css">
+  <link rel="stylesheet" href="css/homescreen.css">
+  <link rel="stylesheet" href="css/apps.css">
+</head>
+<body>
+  <main class="stage" aria-label="Interlude smartphone simulator">
+    <section class="phone" id="phone" aria-label="Shaqil's iPhone">
+      <div class="screen" id="screen">
+        <div class="wallpaper" aria-hidden="true"></div>
+
+        <header class="status-bar" id="status-bar">
+          <span class="status-time" id="status-time">09.41</span>
+          <div class="dynamic-island" aria-hidden="true"></div>
+          <div class="status-icons" aria-label="Sinyal, Wi-Fi, dan baterai">
+            <svg viewBox="0 0 18 13" aria-hidden="true"><path d="M1 12V9.5M5 12V7M9 12V4.5M13 12V2M17 12V1"/></svg>
+            <svg viewBox="0 0 18 13" aria-hidden="true"><path d="M1 4.2C5.5.3 12.5.3 17 4.2M4 7.3c3-2.5 7-2.5 10 0M7.2 10.2c1.1-.9 2.5-.9 3.6 0M9 12h.01"/></svg>
+            <svg class="battery" viewBox="0 0 25 13" aria-hidden="true"><rect x="1" y="1" width="20" height="11" rx="3"/><path d="M23 4.2v4.6"/><rect class="battery-fill" x="3" y="3" width="15" height="7" rx="1.5"/></svg>
+          </div>
+        </header>
+
+        <section class="lock-screen" id="lock-screen" aria-label="Lock screen">
+          <div class="lock-topline"><span class="lock-date" id="lock-date">Jumat, 30 Oktober</span></div>
+          <div class="lock-clock" id="lock-clock">09:41</div>
+          <div class="lock-caption">a little piece of shaqil's world</div>
+          <div class="lock-notification" id="lock-notification">
+            <div class="notification-app-icon">M</div>
+            <div class="notification-copy"><strong>Messages</strong><span>Notifikasi dan cerita akan muncul di sini.</span></div>
+            <time>now</time>
+          </div>
+          <div class="lock-bottom">
+            <button class="round-shortcut" type="button" aria-label="Flashlight" title="Flashlight"><span class="shortcut-glyph">ϟ</span></button>
+            <button class="unlock-prompt" id="unlock-button" type="button">Tap to unlock</button>
+            <button class="round-shortcut" type="button" aria-label="Camera" title="Camera"><span class="shortcut-glyph">◎</span></button>
+          </div>
+        </section>
+
+        <section class="passcode-screen is-hidden" id="passcode-screen" aria-label="Enter passcode">
+          <button class="passcode-cancel" id="passcode-cancel" type="button">Cancel</button>
+          <div class="passcode-heading"><span class="passcode-lock">⌑</span><h1>Enter Passcode</h1><p>Enter the passcode to unlock this iPhone.</p></div>
+          <div class="passcode-dots" id="passcode-dots" aria-label="Passcode length four"><i></i><i></i><i></i><i></i></div>
+          <p class="passcode-error" id="passcode-error" aria-live="polite"></p>
+          <div class="keypad" id="keypad" aria-label="Numeric keypad">
+            <button type="button" data-key="1">1</button><button type="button" data-key="2">2<small>ABC</small></button><button type="button" data-key="3">3<small>DEF</small></button>
+            <button type="button" data-key="4">4<small>GHI</small></button><button type="button" data-key="5">5<small>JKL</small></button><button type="button" data-key="6">6<small>MNO</small></button>
+            <button type="button" data-key="7">7<small>PQRS</small></button><button type="button" data-key="8">8<small>TUV</small></button><button type="button" data-key="9">9<small>WXYZ</small></button>
+            <span class="keypad-spacer"></span><button type="button" data-key="0">0</button><button class="delete-key" type="button" data-key="delete" aria-label="Delete">⌫</button>
+          </div>
+        </section>
+
+        <section class="home-screen is-hidden" id="home-screen" aria-label="Home screen">
+          <div class="home-date" id="home-date">FRIDAY, OCTOBER 30</div>
+          <div class="home-widget-row">
+            <div class="hello-widget"><span class="widget-eyebrow">SHAQIL'S IPHONE</span><strong>Good morning.</strong><span>Your day, your little universe.</span><div class="widget-weather">☀︎ <b>28°</b><small>Mostly sunny</small></div></div>
+            <div class="calendar-widget"><span>FRI</span><strong id="calendar-day">30</strong><small>OCTOBER</small><div class="calendar-dots"><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="app-grid" id="app-grid" aria-label="Applications"></div>
+          <div class="home-spacer"></div>
+          <nav class="dock" id="dock" aria-label="Dock"></nav>
+        </section>
+
+        <section class="app-layer is-hidden" id="app-layer" aria-label="Open application">
+          <div class="app-surface" id="app-surface"></div>
+        </section>
+
+        <button class="home-indicator" id="home-indicator" type="button" aria-label="Return to Home"></button>
+      </div>
+    </section>
+    <p class="stage-hint">INTERLUDE <span>·</span> SHAQIL NARAYA'S IPHONE</p>
+  </main>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
 
