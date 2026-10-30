@@ -688,3 +688,15 @@ padding-left: 12px;
 }
 }
 
+/* FIX POSISI BUBBLE CHAT */
+.message-bubbles > .message-bubble.message-incoming {
+  align-self: flex-start !important;
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+.message-bubbles > .message-bubble.message-outgoing {
+  align-self: flex-end !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
