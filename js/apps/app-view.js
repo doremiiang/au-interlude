@@ -221,10 +221,10 @@ function renderNoteEditor(note) {
         <button class="app-primary-button" type="submit">
           Save Note
         </button>
-      </div>
+            </div>
     </form>
   `;
-                             }
+}
 
 // ==========================================
 // CALENDAR
