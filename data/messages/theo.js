@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "theo": [
+export const THEO_MESSAGES = [
     {
       "id": "theo-001",
       "direction": "incoming",
@@ -321,6 +320,5 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-26",
       "time": "16:21"
     }
-  ]
-};
+  ];
 
