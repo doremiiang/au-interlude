@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "esta": [
+export const ESTA_MESSAGES = [
     {
       "id": "esta-001",
       "direction": "outgoing",
@@ -212,6 +211,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-28",
       "time": "07:30"
     }
-  ]
-};
-
+  ];
