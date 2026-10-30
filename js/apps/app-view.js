@@ -1,5 +1,6 @@
 import { MESSAGE_CONTACTS } from '../../data/apps.js';
 import { iconSvg } from '../core/icons.js';
+import { renderMessages } from './messages.js';
 
 const STORAGE_KEYS = {
   messages: 'interlude-messages-v1',
