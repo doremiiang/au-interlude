@@ -762,3 +762,36 @@ padding-left: 12px;
 .message-outgoing {
   align-self: flex-end;
 }
+
+/* GROUP CHAT SENDER NAME */
+
+.message-bubble-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  max-width: 82%;
+  flex: 0 0 auto;
+}
+
+.message-bubble-wrapper.message-incoming {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.message-bubble-wrapper.message-outgoing {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.message-sender-name {
+  display: block;
+  margin: 0 0 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #a66f91;
+}
+
+.message-bubble-wrapper .message-bubble {
+  max-width: 100%;
+  width: fit-content;
+}
