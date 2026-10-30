@@ -18,7 +18,7 @@ export const APPS = [
 export const MESSAGE_CONTACTS = [
   { id: 'panji', name: 'Panji Tiyasa', subtitle: 'Percakapan akan ditambahkan nanti.', initials: 'PT' },
   { id: 'esta', name: 'Bang Esta', subtitle: 'Belum ada pesan.', initials: 'BE' },
-  { id: 'pian', name: 'Bang Pian', subtitle: 'Belum ada pesan.', initials: 'EP' },
+  { id: 'pian', name: 'Bang Pian', subtitle: 'Belum ada pesan.', initials: 'BP' },
   { id: 'anta', name: 'Anta', subtitle: 'Belum ada pesan.', initials: 'A' },
   { id: 'mara', name: 'Samara', subtitle: 'Belum ada pesan.', initials: 'SM' },
   { id: 'helio', name: 'Helio', subtitle: 'Belum ada pesan.', initials: 'H' },
