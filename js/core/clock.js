@@ -29,6 +29,9 @@ export function startClock() {
   const homeDate = document.querySelector('#home-date');
   const calendarDay = document.querySelector('#calendar-day');
 
+  console.log('Timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone);
+console.log('Device time:', new Date().toString());
+console.log('Clock:', new Date().toLocaleTimeString('id-ID'));
   function update() {
     const now = new Date();
 
