@@ -1,4 +1,4 @@
-export const FERI_MESSAGES = [
+export const PAPA_MESSAGES = [
     {
       "id": "feri-001",
       "direction": "incoming",
