@@ -1,6 +1,6 @@
 // Service worker dengan cache versioning agar deployment baru mengambil app shell terbaru.
 const CACHE_PREFIX = 'interlude-shell-';
-const CACHE_NAME = `${CACHE_PREFIX}v3`;
+const CACHE_NAME = `${CACHE_PREFIX}v4`;
 const APP_SHELL = [
   './', './index.html', './manifest.webmanifest',
   './css/base.css', './css/phone.css', './css/lockscreen.css', './css/homescreen.css', './css/apps.css',
