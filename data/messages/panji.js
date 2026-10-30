@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "panji": [
+export const PANJI_MESSAGES = [
     {
       "id": "panji-001",
       "direction": "outgoing",
@@ -1192,6 +1191,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-30",
       "time": "08:16"
     }
-  ]
-};
-
+  ];
