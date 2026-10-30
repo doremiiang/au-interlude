@@ -160,10 +160,10 @@ dock.replaceChildren();
 APPS.forEach((app) => {
 const button = createAppButton(app);
 
-if (app.dock) {  
-  dock.append(button);  
-} else {  
-  grid.append(button);  
+if (app.dock) {
+dock.append(button);
+} else {
+grid.append(button);
 }
 
 });
@@ -233,35 +233,34 @@ try {
 // Muat modul aplikasi hanya saat diperlukan.
 const { renderApp } = await import('./apps/app-view.js');
 
-// Abaikan hasil jika pengguna sudah berpindah aplikasi.  
-if (loadToken !== appLoadToken) return;  
+// Abaikan hasil jika pengguna sudah berpindah aplikasi.
+if (loadToken !== appLoadToken) return;
 
-if (typeof renderApp !== 'function') {  
-  throw new TypeError('renderApp tidak ditemukan.');  
-}  
+if (typeof renderApp !== 'function') {
+throw new TypeError('renderApp tidak ditemukan.');
+}
 
-appSurface.replaceChildren();  
+appSurface.replaceChildren();
 
-const cleanup = renderApp(app, appSurface, closeApp);  
+const cleanup = renderApp(app, appSurface, closeApp);
 
-cleanupCurrentApp =  
-  typeof cleanup === 'function' ? cleanup : null;
+cleanupCurrentApp =
+typeof cleanup === 'function' ? cleanup : null;
 
 } catch (error) {
 // PATCH: Tampilkan pesan kegagalan hanya jika pemuatan masih relevan.
 console.error(Gagal membuka aplikasi ${app.name}:, error);
 
-if (loadToken !== appLoadToken) return;  
+if (loadToken !== appLoadToken) return;
 
-appSurface.innerHTML = `  
-  <div class="generic-app-screen">  
-    <h2>Aplikasi tidak dapat dibuka</h2>  
-    <p>Terjadi kesalahan saat memuat ${app.name}.</p>  
-    <p>Silakan periksa Console untuk detail error.</p>  
-  </div>  
-`;
+appSurface.innerHTML = `
 
-}
+  <div class="generic-app-screen">    
+    <h2>Aplikasi tidak dapat dibuka</h2>    
+    <p>Terjadi kesalahan saat memuat ${app.name}.</p>    
+    <p>Silakan periksa Console untuk detail error.</p>    
+  </div>    
+`;  }
 }
 
 // Membuka aplikasi tujuan ketika notifikasi diketuk.
@@ -289,8 +288,8 @@ if (isStoryCompleted()) {
 resetStoryState();
 }
 
-startStory();  
-showLockScreen();  
+startStory();
+showLockScreen();
 return;
 
 }
@@ -306,10 +305,10 @@ const confirmed = window.confirm(
 'Restart Story? Your current story progress will be reset.'
 );
 
-if (!confirmed) return;  
+if (!confirmed) return;
 
-resetStoryState();  
-startStory();  
+resetStoryState();
+startStory();
 showLockScreen();
 
 }
