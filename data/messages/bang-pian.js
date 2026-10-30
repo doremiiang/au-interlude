@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "pian": [
+export const PIAN_MESSAGES = [
     {
       "id": "pian-001",
       "direction": "incoming",
@@ -280,6 +279,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-29",
       "time": "13:30"
     }
-  ]
-};
-
+  ];
