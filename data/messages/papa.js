@@ -1,5 +1,4 @@
-export const MESSAGE_THREADS = {
-  "feri": [
+export const FERI_MESSAGES = [
     {
       "id": "feri-001",
       "direction": "incoming",
@@ -230,5 +229,4 @@ export const MESSAGE_THREADS = {
       "date": "2026-10-29",
       "time": "17:20"
     }
-  ]
-};
+  ];
