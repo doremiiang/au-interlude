@@ -533,7 +533,7 @@ export function renderApp(app, surface, onClose) {
 
   if (app.id === 'messages') {
     let disposed = false;
-    let cleanupMessages = null;
+    let cleanupWhatsApp = null;
     let fallbackHandler = null;
 
     surface.innerHTML = `
