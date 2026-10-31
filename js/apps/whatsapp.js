@@ -373,6 +373,13 @@ const renderMessageThread = (surface, contactId) => {
       </footer>
     </section>
   `;
+    const history = surface.querySelector(
+    '[data-role="thread-history"]'
+  );
+
+  if (history) {
+    history.scrollTop = history.scrollHeight;
+  }
 };
 
 
