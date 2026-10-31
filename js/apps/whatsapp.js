@@ -270,10 +270,10 @@ const renderConversation = (contactId) => {
 
 
 const renderMessageThread = (surface, contactId) => {
-  surface.classList.add('whatsapp-surface');
   const contact = getContact(contactId);
 
   if (!contact) return;
+  surface.classList.add('whatsapp-surface');
 
   const subtitle = contact.id === 'family'
     ? 'Grup keluarga'
