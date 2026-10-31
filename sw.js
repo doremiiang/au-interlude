@@ -12,7 +12,8 @@ const APP_SHELL = [
   './css/lockscreen.css',
   './css/homescreen.css',
   './css/apps.css',
-
+'./css/apps/whatsapp.css',
+  
   './js/main.js',
   './js/core/icons.js',
   './js/core/clock.js',
