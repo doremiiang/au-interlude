@@ -181,7 +181,7 @@ const renderMessagesList = (surface) => {
 
     <section class="messages-screen">
       <div class="messages-page-title">
-        <h2>WhatsApp</h2>
+        <h2>Chats</h2>
         <p>Semua percakapan</p>
       </div>
 
