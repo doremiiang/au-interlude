@@ -537,75 +537,87 @@ export function renderApp(app, surface, onClose) {
     let fallbackHandler = null;
 
     surface.innerHTML = `
-      ${appHeader('Messages')}
+      ${appHeader('WhatsApp')}
       <section class="generic-app-screen">
         <p>Loading Messages...</p>
       </section>
     `;
 
-    import('./messages.js')
-      .then(({ renderMessages }) => {
-        if (disposed) return;
+   import('./whatsapp.js')
+  .then(({ renderWhatsApp }) => {
+    if (disposed) return;
 
-        if (typeof renderMessages !== 'function') {
-          throw new TypeError(
-            'renderMessages tidak ditemukan di messages.js'
-          );
-        }
+    if (typeof renderWhatsApp !== 'function') {
+      throw new TypeError(
+        'renderWhatsApp tidak ditemukan di whatsapp.js'
+      );
+    }
 
-        cleanupMessages = renderMessages(surface, onClose);
+    cleanupWhatsApp = renderWhatsApp(surface, onClose);
 
-        if (typeof cleanupMessages !== 'function') {
-          cleanupMessages = null;
-        }
-      })
-      .catch((error) => {
-        console.error('Gagal memuat Messages:', error);
+    if (typeof cleanupWhatsApp !== 'function') {
+      cleanupWhatsApp = null;
+    }
+  })
+  .catch((error) => {
+    console.error('Gagal memuat WhatsApp:', error);
 
-        if (disposed) return;
+    if (disposed) return;
 
-        surface.innerHTML = `
-          ${appHeader('Messages')}
-          <section class="generic-app-screen">
-            ${emptyState({
-              icon: 'message',
-              title: 'Messages gagal dimuat',
-              description: 'Detail error ditampilkan di bawah.'
-            })}
+    surface.innerHTML = `
+      ${appHeader('WhatsApp')}
+      <section class="generic-app-screen">
+        ${emptyState({
+          icon: 'whatsapp',
+          title: 'WhatsApp gagal dimuat',
+          description: 'Detail error ditampilkan di bawah.'
+        })}
 
-            <pre
-              data-role="messages-error"
-              style="
-                margin: 16px;
-                padding: 12px;
-                background: #fff0f0;
-                color: #b00020;
-                border-radius: 8px;
-                font-size: 11px;
-                white-space: pre-wrap;
-                overflow-wrap: anywhere;
-              "
-            ></pre>
-          </section>
-        `;
+        <pre
+          data-role="whatsapp-error"
+          style="
+            margin: 16px;
+            padding: 12px;
+            background: #fff0f0;
+            color: #b00020;
+            border-radius: 8px;
+            font-size: 11px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+          "
+        ></pre>
+      </section>
+    `;
 
-        const errorBox = surface.querySelector(
-          '[data-role="messages-error"]'
-        );
+    const errorBox = surface.querySelector(
+      '[data-role="whatsapp-error"]'
+    );
 
-        if (errorBox) {
-          errorBox.textContent =
-            error?.stack || error?.message || String(error);
-        }
+    if (errorBox) {
+      errorBox.textContent =
+        error?.stack || error?.message || String(error);
+    }
 
-        fallbackHandler = (event) => {
-          if (event.target.closest('[data-action="back"]')) {
-            onClose();
-          }
-        };
+    fallbackHandler = (event) => {
+      if (event.target.closest('[data-action="back"]')) {
+        onClose();
+      }
+    };
 
-        surface.addEventListener('click', fallbackHandler);
-      });
+    surface.addEventListener('click', fallbackHandler);
+  });
+
+return () => {
+  disposed = true;
+
+  if (fallbackHandler) {
+    surface.removeEventListener('click', fallbackHandler);
+  }
+
+  if (typeof cleanupWhatsApp === 'function') {
+    cleanupWhatsApp();
+  }
+};
 
     return () => {
       disposed = true;
@@ -614,8 +626,8 @@ export function renderApp(app, surface, onClose) {
         surface.removeEventListener('click', fallbackHandler);
       }
 
-      if (typeof cleanupMessages === 'function') {
-        cleanupMessages();
+      if (typeof cleanupWhatsApp === 'function') {
+        cleanupWhatsApp();
       }
     };
   }
