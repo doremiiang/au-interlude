@@ -1,6 +1,6 @@
 // Metadata aplikasi. Urutan array menentukan urutan ikon di Home Screen.
 export const APPS = [
-  { id: 'messages', name: 'Messages', glyph: 'message', color: 'messages', dock: true },
+  { id: 'messages', name: 'WhatsApp', glyph: 'whatsapp', color: 'whatsapp', dock: true },
   { id: 'photos', name: 'Photos', glyph: 'photos', color: 'photos' },
   { id: 'camera', name: 'Camera', glyph: 'camera', color: 'camera' },
   { id: 'instagram', name: 'Instagram', glyph: 'instagram', color: 'instagram' },
