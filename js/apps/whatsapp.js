@@ -176,6 +176,7 @@ const renderContactList = (searchTerm = '') => {
 };
 
 const renderMessagesList = (surface) => {
+  surface.classList.remove('whatsapp-surface');
   surface.innerHTML = `
     ${renderMessagesHeader()}
 
@@ -269,6 +270,7 @@ const renderConversation = (contactId) => {
 
 
 const renderMessageThread = (surface, contactId) => {
+  surface.classList.add('whatsapp-surface');
   const contact = getContact(contactId);
 
   if (!contact) return;
@@ -308,6 +310,8 @@ const renderMessageThread = (surface, contactId) => {
       </div>
     </header>
 
+
+    <section class="message-thread">
       <div class="thread-history" data-role="thread-history">
         <div class="message-bubbles">
           ${renderConversation(contactId)}
@@ -367,6 +371,7 @@ const renderMessageThread = (surface, contactId) => {
           </svg>
         </button>
       </footer>
+    </section>
   `;
 
   const history = surface.querySelector(
