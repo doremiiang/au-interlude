@@ -96,7 +96,7 @@ const renderAvatar = (contact, large = false) => {
 };
 
 
-const renderMessagesHeader = (title = 'Messages') => {
+const renderMessagesHeader = (title = 'WhatsApp') => {
   return `
     <header class="app-header messages-header">
       <button
@@ -181,7 +181,7 @@ const renderMessagesList = (surface) => {
 
     <section class="messages-screen">
       <div class="messages-page-title">
-        <h2>Messages</h2>
+        <h2>WhatsApp</h2>
         <p>Semua percakapan</p>
       </div>
 
