@@ -325,7 +325,7 @@ const renderMessageThread = (surface, contactId) => {
   }
 };
 
-export function renderMessages(surface, onClose) {
+export function renderWhatsApp(surface, onClose) {
   let activeContactId = null;
 
   const handleClick = (event) => {
