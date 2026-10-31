@@ -791,3 +791,47 @@
 .composer-input-wrap:focus-within {
   border-color: #b8c9d0;
 }
+
+   
+/* =========================================
+   PATCH 4C-1 — CHAT LAYOUT
+========================================= */
+
+.app-surface.whatsapp-surface {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.whatsapp-surface .whatsapp-thread-header {
+  flex: 0 0 58px;
+}
+
+.whatsapp-surface .message-thread {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.whatsapp-surface .thread-history {
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.whatsapp-surface .message-composer {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
