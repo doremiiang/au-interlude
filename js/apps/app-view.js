@@ -607,18 +607,6 @@ export function renderApp(app, surface, onClose) {
     surface.addEventListener('click', fallbackHandler);
   });
 
-return () => {
-  disposed = true;
-
-  if (fallbackHandler) {
-    surface.removeEventListener('click', fallbackHandler);
-  }
-
-  if (typeof cleanupWhatsApp === 'function') {
-    cleanupWhatsApp();
-  }
-};
-
     return () => {
       disposed = true;
 
