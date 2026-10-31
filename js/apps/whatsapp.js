@@ -275,10 +275,10 @@ const renderMessageThread = (surface, contactId) => {
 
   const subtitle = contact.id === 'family'
     ? 'Grup keluarga'
-    : contact.subtitle || '';
+    : '';
 
   surface.innerHTML = `
-    <header class="app-header messages-header">
+    <header class="app-header messages-header whatsapp-thread-header">
       <button
         class="app-back-button"
         type="button"
@@ -297,17 +297,18 @@ const renderMessageThread = (surface, contactId) => {
         </svg>
       </button>
 
-      <h1>${escapeHTML(contact.name)}</h1>
-      <span class="messages-header-spacer"></span>
+      ${renderAvatar(contact)}
+
+      <div class="whatsapp-thread-heading">
+        <strong>${escapeHTML(contact.name)}</strong>
+        ${subtitle
+          ? `<span>${escapeHTML(subtitle)}</span>`
+          : ''
+        }
+      </div>
     </header>
 
     <section class="message-thread">
-      <div class="thread-profile">
-        ${renderAvatar(contact, true)}
-        <strong>${escapeHTML(contact.name)}</strong>
-        <span>${escapeHTML(subtitle)}</span>
-      </div>
-
       <div class="thread-history" data-role="thread-history">
         <div class="message-bubbles">
           ${renderConversation(contactId)}
@@ -324,6 +325,7 @@ const renderMessageThread = (surface, contactId) => {
     history.scrollTop = history.scrollHeight;
   }
 };
+
 
 export function renderWhatsApp(surface, onClose) {
   let activeContactId = null;
