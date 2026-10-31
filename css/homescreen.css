@@ -223,7 +223,9 @@
 }
 
 /* App-specific icon colors — these are also used by the dock. */
-.app-icon.messages { background: linear-gradient(145deg,#79e08b,#1caa58); }
+.app-icon.whatsapp {
+  background: linear-gradient(145deg, #42e879, #079b50);
+}
 .app-icon.phone { background: linear-gradient(145deg,#6de5a0,#179d69); }
 .app-icon.photos { background: linear-gradient(145deg,#fff,#dce5ed); color: #c879a8; }
 .app-icon.camera { background: linear-gradient(145deg,#777987,#252631); }
