@@ -308,13 +308,65 @@ const renderMessageThread = (surface, contactId) => {
       </div>
     </header>
 
-    <section class="message-thread">
       <div class="thread-history" data-role="thread-history">
         <div class="message-bubbles">
           ${renderConversation(contactId)}
         </div>
       </div>
-    </section>
+
+      <footer class="message-composer">
+        <button
+          class="composer-attach"
+          type="button"
+          aria-label="Lampiran"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 5v14M5 12h14"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <div class="composer-input-wrap">
+          <input
+            type="text"
+            placeholder="Ketik pesan"
+            aria-label="Ketik pesan"
+            data-role="message-input"
+            autocomplete="off"
+          />
+        </div>
+
+        <button
+          class="composer-microphone"
+          type="button"
+          aria-label="Rekam pesan suara"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect
+              x="9"
+              y="3"
+              width="6"
+              height="12"
+              rx="3"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+            <path
+              d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </footer>
   `;
 
   const history = surface.querySelector(
