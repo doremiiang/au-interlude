@@ -649,3 +649,67 @@
     max-width: 86%;
   }
 }
+
+
+/* =========================================
+   WHATSAPP — CONVERSATION HEADER
+   Patch 4B
+========================================= */
+
+.whatsapp-thread-header {
+  min-height: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px 0 8px;
+  background: #ffffff;
+  border-bottom: 1px solid #ededed;
+}
+
+.whatsapp-thread-header .app-back-button {
+  width: 32px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.whatsapp-thread-header .message-avatar {
+  width: 36px;
+  height: 36px;
+  flex-basis: 36px;
+  font-size: 11px;
+}
+
+.whatsapp-thread-heading {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+
+.whatsapp-thread-heading strong {
+  overflow: hidden;
+  color: #111b21;
+  font-size: 14px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.whatsapp-thread-heading span {
+  color: #667781;
+  font-size: 10px;
+}
+
+.message-thread {
+  height: calc(100% - 58px);
+  flex: 1;
+  min-height: 0;
+}
+
+.thread-history {
+  background-color: #efeae2;
+}
