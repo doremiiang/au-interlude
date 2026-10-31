@@ -539,7 +539,7 @@ export function renderApp(app, surface, onClose) {
     surface.innerHTML = `
       ${appHeader('WhatsApp')}
       <section class="generic-app-screen">
-        <p>Loading Messages...</p>
+        <p>Loading WhatsApp...</p>
       </section>
     `;
 
