@@ -793,8 +793,9 @@
 }
 
    
+
 /* =========================================
-   PATCH 4C-1 — CHAT LAYOUT
+   PATCH 4C-1 — WHATSAPP CHAT LAYOUT
 ========================================= */
 
 .app-surface.whatsapp-surface {
@@ -805,9 +806,13 @@
   padding-bottom: 0;
 }
 
+/* Header tetap berada di atas */
+
 .whatsapp-surface .whatsapp-thread-header {
   flex: 0 0 58px;
 }
+
+/* Area percakapan */
 
 .whatsapp-surface .message-thread {
   width: 100%;
@@ -819,21 +824,37 @@
   overflow: hidden;
 }
 
+/* Riwayat pesan */
 
 .whatsapp-surface .thread-history {
+  display: block;
   width: 100%;
-  height: auto;
+  height: 0;
   min-height: 0;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  scroll-behavior: auto;
+  overflow-anchor: none;
 }
+
+/* Urutan pesan selalu dari atas ke bawah */
+
+.whatsapp-surface .message-bubbles {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 100%;
+}
+
+/* Composer tetap berada di bawah */
 
 .whatsapp-surface .message-composer {
   position: relative;
   z-index: 2;
-  flex-shrink: 0;
+  flex: 0 0 auto;
 }
-
