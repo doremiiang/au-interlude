@@ -409,11 +409,6 @@
   text-align: center;
 }
 
-/* Composer belum digunakan oleh renderer saat ini. */
-.message-thread .message-composer {
-  display: none;
-}
-
 /* -----------------------------------------
    RESPONSIVE
 ----------------------------------------- */
@@ -708,6 +703,104 @@
   height: calc(100% - 58px);
   flex: 1;
   min-height: 0;
+}
+
+/* =========================================
+   PATCH 4C — WHATSAPP CHAT COMPOSER
+========================================= */
+
+.message-thread {
+  position: relative;
+  min-height: 0;
+}
+
+/* Area composer */
+
+.message-composer {
+  width: 100%;
+  min-height: 62px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  background: #f7f7f7;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Tombol lampiran dan mikrofon */
+
+.composer-attach,
+.composer-microphone {
+  width: 34px;
+  height: 38px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #54656f;
+}
+
+.composer-attach svg,
+.composer-microphone svg {
+  width: 23px;
+  height: 23px;
+}
+
+.composer-attach:disabled,
+.composer-microphone:disabled {
+  opacity: 0.75;
+}
+
+/* Kolom pengetikan */
+
+.composer-input {
+  width: 100%;
+  height: 40px;
+  min-width: 0;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #e2e2e2;
+  border-radius: 22px;
+  outline: none;
+  background: #ffffff;
+  color: #111b21;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.composer-input::placeholder {
+  color: #8696a0;
+}
+
+.composer-input:focus {
+  border-color: #b8c9d0;
+}
+
+/* Pastikan riwayat chat tetap bisa di-scroll */
+
+.thread-history {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+/* Tampilan layar kecil */
+
+@media (max-width: 480px) {
+  .message-composer {
+    gap: 7px;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .composer-input {
+    font-size: 13px;
+  }
 }
 
 .thread-history {
