@@ -555,7 +555,7 @@ export const PANJI_MESSAGES = [
 "text": "Sok tau. Udah tidur sana.",
 "date": "2026-09-17",
 "time": "21:17"
-}
+},
 {
 "id": "panji-018",
 "direction": "incoming",
